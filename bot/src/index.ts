@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { registerAllCommands } from "./registerCommands";
 import { handleInteraction } from "./interactionHandler";
 import { connectToMongo } from "./db/mongo";
+import redisClient from "./db/redis";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const client = new Client({
 client.once("ready", async () => {
   console.log(`✅ Logged in as ${client.user?.tag}`);
   await connectToMongo();
+  await redisClient.ping();
   registerAllCommands(client);
 });
 

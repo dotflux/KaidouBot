@@ -3,10 +3,11 @@ import * as ping from "./commands/ping";
 import * as register from "./commands/register";
 import * as profile from "./commands/profile";
 import * as dotenv from "dotenv";
+import * as duel from "./commands/duel";
 
 dotenv.config();
 
-const commands = [ping.data, register.data, profile.data];
+const commands = [ping.data, register.data, profile.data, duel.data];
 
 export async function registerAllCommands(client: Client) {
   const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN!);
