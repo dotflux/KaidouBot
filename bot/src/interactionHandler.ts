@@ -7,6 +7,8 @@ import * as raceSelect from "./logic/register/dropdowns/raceSelect";
 import * as duel from "./commands/duel";
 import * as acceptDuelButton from "./logic/duel/buttons/acceptDuelButton";
 import * as rejectDuelButton from "./logic/duel/buttons/rejectDuelButton";
+import * as duelActionSelect from "./logic/duel/dropdowns/duelActionCallback";
+import * as fsSelect from "./logic/duel/dropdowns/fsSelect";
 
 export async function handleInteraction(interaction: Interaction) {
   if (interaction.isChatInputCommand()) {
@@ -22,6 +24,10 @@ export async function handleInteraction(interaction: Interaction) {
       return factionSelect.execute(interaction);
     if (interaction.customId.startsWith("raceSelect_"))
       return raceSelect.execute(interaction);
+    if (interaction.customId.startsWith("duelActionSelect_"))
+      return duelActionSelect.execute(interaction);
+    if (interaction.customId.startsWith("duelActionFs_"))
+      return fsSelect.execute(interaction);
   }
   if (interaction.isButton()) {
     if (interaction.customId.startsWith("duelAccept_"))
