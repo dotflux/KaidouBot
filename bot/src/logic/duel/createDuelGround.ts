@@ -9,6 +9,7 @@ import { duelStartedEmbed } from "./embeds/duelStartedEmbed";
 import { User } from "discord.js";
 import { duelActionSelect } from "./dropdowns/duelActionSelect";
 import redisClient from "../../db/redis";
+import { UserModel } from "../../db/models/user";
 
 export const createDuelBattleground = async (
   interaction: ButtonInteraction,
@@ -22,18 +23,30 @@ export const createDuelBattleground = async (
     users: [canInteract[0], canInteract[1]],
   });
 
-  duelDocument.save();
+  await duelDocument.save();
+
+  const challengerUser = await UserModel.findOne({
+    userId: userObjs.challenger.id,
+  });
+  const opponentUser = await UserModel.findOne({
+    userId: userObjs.opponent.id,
+  });
+  if (!challengerUser || !opponentUser) {
+    throw new Error("Something went wrong");
+  }
 
   await redisClient.hSet(`duel:${duelId}`, {
     challengerId: canInteract[0],
     opponentId: canInteract[1],
-    [`${canInteract[0]}:hp`]: 500,
-    [`${canInteract[1]}:hp`]: 500,
+    [`${canInteract[0]}:hp`]: challengerUser.maxHp,
+    [`${canInteract[1]}:hp`]: opponentUser.maxHp,
+    [`${canInteract[0]}:maxHp`]: challengerUser.maxHp,
+    [`${canInteract[1]}:maxHp`]: opponentUser.maxHp,
     [`${canInteract[0]}:moveUsed`]: "",
     [`${canInteract[1]}:moveUsed`]: "",
     [`${canInteract[0]}:speed`]: 50,
     [`${canInteract[1]}:speed`]: 40,
-    proceedTurn: 0,
+    currentTurn: 0,
   });
 
   await redisClient.expire(`duel:${duelId}`, 600);
@@ -41,7 +54,7 @@ export const createDuelBattleground = async (
   const embed = duelStartedEmbed(
     userObjs.challenger.username,
     userObjs.opponent.username,
-    { challenger: 500, opponent: 500 }
+    { challenger: challengerUser.maxHp, opponent: opponentUser.maxHp }
   );
 
   const duelCompWithId = duelActionSelect.setCustomId(

@@ -1,0 +1,133 @@
+{
+  "electricClaw": [
+    {
+      "name": "Spark Jab",
+      "type": "offense",
+      "power": 15,
+      "description": "A quick electric-empowered jab. (Starter)"
+    },
+    {
+      "name": "Static Shield",
+      "type": "defense",
+      "power": 15,
+      "description": "Surround yourself in electricity to block attacks. (Starter)"
+    },
+    {
+      "name": "Thunder Slash",
+      "type": "offense",
+      "power": 40,
+      "description": "Slash with electrified claws, dealing significant damage."
+    },
+    {
+      "name": "Overload Burst",
+      "type": "special",
+      "power": 60,
+      "description": "Channel electricity into a burst, hitting the opponent twice."
+    },
+    {
+      "name": "Ion Surge",
+      "type": "offense",
+      "power": 50,
+      "description": "A burst of energy that damages and briefly stuns."
+    }
+  ],
+
+  "fishmanKarate": [
+    {
+      "name": "Water Punch",
+      "type": "offense",
+      "power": 15,
+      "description": "A fast jab using water pressure. (Starter)"
+    },
+    {
+      "name": "Aqua Guard",
+      "type": "defense",
+      "power": 10,
+      "description": "Use water to cushion incoming blows. (Starter)"
+    },
+    {
+      "name": "Jet Stream Fist",
+      "type": "offense",
+      "power": 45,
+      "description": "A powerful pressurized punch like a water jet."
+    },
+    {
+      "name": "Tidal Wave",
+      "type": "special",
+      "power": 65,
+      "description": "Unleash a wave that pushes enemies back and deals damage."
+    },
+    {
+      "name": "Whirlpool Throw",
+      "type": "special",
+      "power": 55,
+      "description": "Grab opponent and spin them in water swirl damage."
+    }
+  ],
+
+  "mechanics": [
+    {
+      "name": "Wrench Swing",
+      "type": "offense",
+      "power": 25,
+      "description": "A simple swing with a mechanical tool. (Starter)"
+    },
+    {
+      "name": "Armor Plate",
+      "type": "defense",
+      "power": 20,
+      "description": "Activate a metal plating that reduces incoming damage. (Starter)"
+    },
+    {
+      "name": "Gear Grind",
+      "type": "offense",
+      "power": 40,
+      "description": "Spin gears around opponent, slicing them."
+    },
+    {
+      "name": "Rocket Boost",
+      "type": "special",
+      "power": 50,
+      "description": "Boost forward rapidly, tackling the enemy."
+    },
+    {
+      "name": "EMP Blast",
+      "type": "special",
+      "power": 60,
+      "description": "Release an electromagnetic pulse that deals damage and disables abilities."
+    }
+  ],
+
+  "hands": [
+    {
+      "name": "Basic Punch",
+      "type": "offense",
+      "power": 10,
+      "description": "A straight-on basic punch. (Starter)"
+    },
+    {
+      "name": "Cover Block",
+      "type": "defense",
+      "power": 5,
+      "description": "Raise guard to block incoming strikes. (Starter)"
+    },
+    {
+      "name": "Hook Combo",
+      "type": "offense",
+      "power": 45,
+      "description": "A series of powerful hooks."
+    },
+    {
+      "name": "Flash Strike",
+      "type": "offense",
+      "power": 50,
+      "description": "A lightning-fast jab that hits twice."
+    },
+    {
+      "name": "Iron Fist",
+      "type": "special",
+      "power": 70,
+      "description": "A devastating punch that breaks defense."
+    }
+  ]
+}

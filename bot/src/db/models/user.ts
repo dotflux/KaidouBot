@@ -1,5 +1,19 @@
 import mongoose from "mongoose";
 
+const moveSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    type: {
+      type: String,
+      enum: ["offense", "defense", "special"],
+      required: true,
+    },
+    power: { type: Number, required: true },
+    description: { type: String },
+  },
+  { _id: false }
+);
+
 const userSchema = new mongoose.Schema({
   userId: { type: String, required: true, unique: true },
   faction: {
@@ -12,7 +26,20 @@ const userSchema = new mongoose.Schema({
     enum: ["human", "mink", "cyborg", "fishman"],
     required: true,
   },
+  fightingStyle: {
+    type: String,
+    enum: ["fishmanKarate", "electricClaw", "mechanics", "hands"],
+    required: true,
+  },
+  equippedWeapon: { type: String },
+  moves: {
+    type: Map,
+    of: [moveSchema],
+    default: {},
+  },
+  rokushiki: { type: [String], default: [] },
   money: { type: Number, default: 0 },
+  maxHp: { type: Number, default: 50 },
   inventory: { type: Array, default: [] },
   createdAt: { type: Date, default: Date.now },
 });

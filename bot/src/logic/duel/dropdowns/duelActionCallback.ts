@@ -5,14 +5,31 @@ import {
   StringSelectMenuBuilder,
 } from "discord.js";
 import { errorEmbed } from "../../register/errorEmbed";
-import { duelActionFs } from "./duelActionFs";
+import { buildFightingStyleMoveDropdown } from "./duelActionFs";
+import { UserModel } from "../../../db/models/user";
+import { DuelModel } from "../../../db/models/duel";
+import redisClient from "../../../db/redis";
 
 export const execute = async (interaction: StringSelectMenuInteraction) => {
   const customIdParts = interaction.customId.split("_");
   const duelId = customIdParts[1];
   const [challenger, opponent] = duelId.split(":");
+
+  const otherId = interaction.user.id === challenger ? opponent : challenger;
   if (interaction.user.id !== challenger && interaction.user.id !== opponent) {
-    const embed = errorEmbed("This registration is not for you!");
+    const embed = errorEmbed("This fight is not yours to fight!");
+    await interaction.reply({
+      embeds: [embed],
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  const duel = await DuelModel.findOne({
+    users: { $all: [challenger, opponent] },
+  });
+  if (!duel) {
+    const embed = errorEmbed("This duel does not exist");
     await interaction.reply({
       embeds: [embed],
       flags: MessageFlags.Ephemeral,
@@ -22,16 +39,37 @@ export const execute = async (interaction: StringSelectMenuInteraction) => {
 
   const action = interaction.values[0];
   if (action === "fighting_style") {
+    const dropdown = await buildFightingStyleMoveDropdown(
+      interaction.user.id,
+      duelId
+    );
+
+    if (!dropdown) {
+      await interaction.reply({
+        content: "Could not find your moves.",
+        flags: MessageFlags.Ephemeral,
+      });
+      return;
+    }
+
     await interaction.reply({
       content: "Pick your move",
       components: [
-        new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-          duelActionFs.setCustomId(
-            `duelActionFs_${duelId}_${interaction.user.id}`
-          )
-        ),
+        new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(dropdown),
       ],
       flags: MessageFlags.Ephemeral,
+    });
+  }
+  if (action === "forfeit") {
+    const otherUser = await interaction.client.users.fetch(otherId);
+    await redisClient.del(`duel:${duelId}`);
+    await DuelModel.deleteOne({
+      users: { $all: [challenger, opponent] },
+    });
+    await interaction.update({
+      content: `${interaction.user.username} forfeited from the battle ${otherUser.username} won the battle`,
+      embeds: [],
+      components: [],
     });
   }
 };

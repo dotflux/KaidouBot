@@ -6,6 +6,7 @@ import {
 import { UserModel } from "../db/models/user";
 import { errorEmbed } from "../logic/register/errorEmbed";
 import { initialDuel } from "../logic/duel/initialDuel";
+import { DuelModel } from "../db/models/duel";
 
 export const data = new SlashCommandBuilder()
   .setName("duel")
@@ -40,6 +41,26 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
   const opponentUser = await UserModel.findOne({ userId: opponent.id });
   if (!opponentUser) {
     const embed = errorEmbed("Opponent is not registered!");
+    await interaction.reply({
+      embeds: [embed],
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  const userInDuel = await DuelModel.findOne({users:interaction.user.id})
+  if (userInDuel){
+    const embed = errorEmbed("You are already in a duel!");
+    await interaction.reply({
+      embeds: [embed],
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  const opponentInDuel = await DuelModel.findOne({users:opponent.id})
+  if (opponentInDuel){
+    const embed = errorEmbed("Opponent is alredy in a duel!");
     await interaction.reply({
       embeds: [embed],
       flags: MessageFlags.Ephemeral,

@@ -7,6 +7,7 @@ import {
 import { errorEmbed } from "../../register/errorEmbed";
 import redisClient from "../../../db/redis";
 import { processMoves } from "./processMoves";
+import { DuelModel } from "../../../db/models/duel";
 
 export const execute = async (interaction: StringSelectMenuInteraction) => {
   const customIdParts = interaction.customId.split("_");
@@ -14,6 +15,18 @@ export const execute = async (interaction: StringSelectMenuInteraction) => {
   const [challenger, opponent] = duelId.split(":");
   if (interaction.user.id !== challenger && interaction.user.id !== opponent) {
     const embed = errorEmbed("This fight is not yours to fight!");
+    await interaction.reply({
+      embeds: [embed],
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
+
+  const duel = await DuelModel.findOne({
+    users: { $all: [challenger, opponent] },
+  });
+  if (!duel) {
+    const embed = errorEmbed("This duel does not exist");
     await interaction.reply({
       embeds: [embed],
       flags: MessageFlags.Ephemeral,

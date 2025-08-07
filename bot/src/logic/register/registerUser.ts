@@ -8,6 +8,22 @@ import { finalRegisterEmbed } from "./embeds/finalRegisterEmbed";
 import { errorEmbed } from "./errorEmbed";
 import { Faction, Race } from "../../types";
 import { UserModel } from "../../db/models/user";
+import fsMoves from "../../moves/fsMoves.json";
+
+const setFs = (race: string) => {
+  switch (race) {
+    case "human":
+      return "hands";
+    case "mink":
+      return "electricClaw";
+    case "cyborg":
+      return "mechanics";
+    case "fishman":
+      return "fishmanKarate";
+    default:
+      return "";
+  }
+};
 
 export const registerUser = async (
   interaction: StringSelectMenuInteraction,
@@ -33,10 +49,18 @@ export const registerUser = async (
     return;
   }
 
+  const fightingStyle = setFs(race);
+  const baseMoves =
+    (fsMoves as Record<string, any[]>)[fightingStyle]?.slice(0, 2) ?? [];
+
   const newUser = new UserModel({
     userId: interaction.user.id,
     faction,
     race,
+    fightingStyle,
+    moves: {
+      [fightingStyle]: baseMoves,
+    },
   });
   await newUser.save();
 
