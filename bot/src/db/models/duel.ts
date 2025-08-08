@@ -12,6 +12,7 @@ const duelSchema = new mongoose.Schema(
         "Users array must have exactly 2 players",
       ],
     },
+    backgroundImage: { type: String, required: true },
   },
   { timestamps: true }
 );

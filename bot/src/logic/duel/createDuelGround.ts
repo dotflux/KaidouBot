@@ -10,17 +10,27 @@ import { User } from "discord.js";
 import { duelActionSelect } from "./dropdowns/duelActionSelect";
 import redisClient from "../../db/redis";
 import { UserModel } from "../../db/models/user";
+import { generateDuelImage } from "./embeds/generateDuelVsImage";
 
 export const createDuelBattleground = async (
   interaction: ButtonInteraction,
   canInteract: string[],
   userObjs: { challenger: User; opponent: User }
 ) => {
+  await interaction.deferUpdate();
+
+  const imageBuffer = await generateDuelImage(
+    userObjs.challenger.displayAvatarURL(),
+    userObjs.opponent.displayAvatarURL()
+  );
+  const base64Image = imageBuffer.toString("base64");
+
   const duelId = `${canInteract[0]}:${canInteract[1]}`;
   const duelDocument = new DuelModel({
     challengerId: canInteract[0],
     opponentId: canInteract[1],
     users: [canInteract[0], canInteract[1]],
+    backgroundImage: base64Image,
   });
 
   await duelDocument.save();
@@ -38,23 +48,37 @@ export const createDuelBattleground = async (
   await redisClient.hSet(`duel:${duelId}`, {
     challengerId: canInteract[0],
     opponentId: canInteract[1],
+
     [`${canInteract[0]}:hp`]: challengerUser.maxHp,
     [`${canInteract[1]}:hp`]: opponentUser.maxHp,
     [`${canInteract[0]}:maxHp`]: challengerUser.maxHp,
     [`${canInteract[1]}:maxHp`]: opponentUser.maxHp,
+
     [`${canInteract[0]}:moveUsed`]: "",
     [`${canInteract[1]}:moveUsed`]: "",
-    [`${canInteract[0]}:speed`]: 50,
-    [`${canInteract[1]}:speed`]: 40,
+
+    [`${canInteract[0]}:speed`]: 40,
+    [`${canInteract[1]}:speed`]: 20,
+
+    [`${canInteract[0]}:buff_offense`]: 0,
+    [`${canInteract[1]}:buff_offense`]: 0,
+    [`${canInteract[0]}:buff_defense`]: 0,
+    [`${canInteract[1]}:buff_defense`]: 50,
+    [`${canInteract[0]}:maxDef`]: challengerUser.maxDef,
+    [`${canInteract[1]}:maxDef`]: opponentUser.maxDef,
+
     currentTurn: 0,
   });
 
   await redisClient.expire(`duel:${duelId}`, 600);
 
-  const embed = duelStartedEmbed(
+  const { embed, attachment } = await duelStartedEmbed(
     userObjs.challenger.username,
     userObjs.opponent.username,
-    { challenger: challengerUser.maxHp, opponent: opponentUser.maxHp }
+    base64Image,
+    { challenger: challengerUser.maxHp, opponent: opponentUser.maxHp },
+    { challenger: 0, opponent: 50 },
+    { challenger: challengerUser.maxDef, opponent: opponentUser.maxDef }
   );
 
   const duelCompWithId = duelActionSelect.setCustomId(
@@ -64,9 +88,10 @@ export const createDuelBattleground = async (
     duelCompWithId
   );
 
-  await interaction.update({
+  await interaction.message.edit({
     content: "",
     embeds: [embed],
     components: [row],
+    files: [attachment],
   });
 };

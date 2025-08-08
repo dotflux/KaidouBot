@@ -40,6 +40,8 @@ const userSchema = new mongoose.Schema({
   rokushiki: { type: [String], default: [] },
   money: { type: Number, default: 0 },
   maxHp: { type: Number, default: 50 },
+  maxDef: { type: Number, default: 50 },
+  currentDf: { type: String, default: "" },
   inventory: { type: Array, default: [] },
   createdAt: { type: Date, default: Date.now },
 });

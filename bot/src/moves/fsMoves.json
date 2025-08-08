@@ -128,6 +128,13 @@
       "type": "special",
       "power": 70,
       "description": "A devastating punch that breaks defense."
+    },
+    {
+      "name": "Iron Rush",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.2,
+      "description": "Simulate a surge of iron that increases your offense"
     }
   ]
 }

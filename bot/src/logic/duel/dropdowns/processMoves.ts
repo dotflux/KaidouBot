@@ -1,201 +1,204 @@
 import {
   StringSelectMenuInteraction,
-  MessageFlags,
   ActionRowBuilder,
   StringSelectMenuBuilder,
 } from "discord.js";
-import { errorEmbed } from "../../register/errorEmbed";
 import redisClient from "../../../db/redis";
-import { Move } from "../../../types";
-import { duelActionSelect } from "./duelActionSelect";
-import fsMoves from "../../../moves/fsMoves.json";
 import { DuelModel } from "../../../db/models/duel";
 import { duelProcessedEmbed } from "../embeds/duelProcessedEmbed";
-import { duelWonEmbed } from "../embeds/duelWonEmbed";
 import { duelDrawEmbed } from "../embeds/duelDrawEmbed";
+import { duelWonEmbed } from "../embeds/duelWonEmbed";
+import { moveHandlers } from "../handlers";
+import { PlayerState, MoveData } from "../moves";
+import fsMoves from "../../../moves/fsMoves.json";
+import { duelActionSelect } from "./duelActionSelect";
 
 export const processMoves = async (
   interaction: StringSelectMenuInteraction,
   opponentId: string,
   challengerMove: string,
-  opponentMove: string
+  opponentMove: string,
+  backgroundImage: string
 ) => {
-  const customIdParts = interaction.customId.split("_");
+  const [, duelId] = interaction.customId.split("_");
   const challengerId = interaction.user.id;
-  const duelId = customIdParts[1];
+  const duel = await DuelModel.findOne({
+    users: { $all: [challengerId, opponentId] },
+  });
+  if (!duel) return;
 
-  const challengerHpKey = `${challengerId}:hp`;
-  const opponentHpKey = `${opponentId}:hp`;
+  const keys = [
+    `${challengerId}:hp`,
+    `${challengerId}:buff_defense`,
+    `${challengerId}:buffs`,
+    `${challengerId}:debuffs`,
+    `${opponentId}:hp`,
+    `${opponentId}:buff_defense`,
+    `${opponentId}:buffs`,
+    `${opponentId}:debuffs`,
+    "currentTurn",
+    `${challengerId}:maxDef`,
+    `${opponentId}:maxDef`,
+    `${challengerId}:maxHp`,
+    `${opponentId}:maxHp`,
+  ];
+  const [
+    cHpRaw,
+    cDefRaw,
+    cBuffsRaw,
+    cDebuffsRaw,
+    oHpRaw,
+    oDefRaw,
+    oBuffsRaw,
+    oDebuffsRaw,
+    turnRaw,
+    cDefMax,
+    oDefMax,
+    cHpMax,
+    oHpMax,
+  ] = await redisClient.hmGet(`duel:${duelId}`, keys);
 
-  const challengerMaxHpKey = `${challengerId}:maxHp`;
-  const opponentMaxHpKey = `${opponentId}:maxHp`;
+  const [challengerUser, opponentUser] = await Promise.all([
+    interaction.client.users.fetch(challengerId),
+    interaction.client.users.fetch(opponentId),
+  ]);
 
-  const [challengerHpRaw, opponentHpRaw] = await redisClient.hmGet(
-    `duel:${duelId}`,
-    [challengerHpKey, opponentHpKey]
-  );
-  const [challengerMaxHpRaw, opponentMaxHpRaw] = await redisClient.hmGet(
-    `duel:${duelId}`,
-    [challengerMaxHpKey, opponentMaxHpKey]
-  );
+  let turn = Number(turnRaw);
+  const cState: PlayerState = {
+    userId: challengerId,
+    username: challengerUser.username,
+    hp: Number(cHpRaw),
+    maxHp: Number(cHpMax),
+    offense: 0,
+    defense: 0,
+    speed: 0,
+    buff_offense: 0,
+    buff_defense: Number(cDefRaw),
+    buffs: JSON.parse(cBuffsRaw || "{}"),
+    debuffs: JSON.parse(cDebuffsRaw || "{}"),
+    maxDef: Number(cDefMax),
+  };
 
-  const [currentTurnRaw] = await redisClient.hmGet(
-    `duel:${duelId}`,
-    "currentTurn"
-  );
-  let currentTurn = Number(currentTurnRaw);
+  const oState: PlayerState = {
+    userId: opponentId,
+    username: opponentUser.username,
+    hp: Number(oHpRaw),
+    maxHp: Number(oHpMax),
+    offense: 0,
+    defense: 0,
+    speed: 0,
+    buff_offense: 0,
+    buff_defense: Number(oDefRaw),
+    buffs: JSON.parse(oBuffsRaw || "{}"),
+    debuffs: JSON.parse(oDebuffsRaw || "{}"),
+    maxDef: Number(oDefMax),
+  };
 
-  let challengerHp = Number(challengerHpRaw);
-  let opponentHp = Number(opponentHpRaw);
+  const lookup = (name: string): MoveData =>
+    (Object.values(fsMoves).flat() as MoveData[]).find((m) => m.name === name)!;
 
-  const challengerMaxHp = Number(challengerMaxHpRaw);
-  const opponentMaxHp = Number(opponentMaxHpRaw);
+  const cMove = lookup(challengerMove);
+  const oMove = lookup(opponentMove);
 
-  const challengerData = await interaction.client.users.fetch(challengerId);
-  const opponentData = await interaction.client.users.fetch(opponentId);
-  const challengerUsername = challengerData.username;
-  const opponentUsername = opponentData.username;
+  const cRes = moveHandlers[cMove.type](cState, oState, cMove);
+  const oRes = moveHandlers[oMove.type](oState, cState, oMove);
 
-  const challengerMoveData = Object.values(fsMoves)
-    .flat()
-    .find((m) => m.name === challengerMove);
-  const opponentMoveData = Object.values(fsMoves)
-    .flat()
-    .find((m) => m.name === opponentMove);
+  // HP
+  cState.hp += oRes.opponentDelta.hp ?? 0;
+  oState.hp += cRes.opponentDelta.hp ?? 0;
 
-  if (!challengerMoveData || !opponentMoveData) {
-    await interaction.reply({
-      embeds: [errorEmbed("Invalid move type.")],
-      ephemeral: true,
-    });
-    return;
-  }
+  // Defense
+  if (oRes.opponentDelta.buff_defense !== undefined)
+    cState.buff_defense = oRes.opponentDelta.buff_defense;
+  else if (cRes.userDelta.buff_defense !== undefined)
+    cState.buff_defense = cRes.userDelta.buff_defense;
 
-  const challengerType = challengerMoveData.type;
-  const opponentType = opponentMoveData.type;
+  if (cRes.opponentDelta.buff_defense !== undefined)
+    oState.buff_defense = cRes.opponentDelta.buff_defense;
+  else if (oRes.userDelta.buff_defense !== undefined)
+    oState.buff_defense = oRes.userDelta.buff_defense;
 
-  if (challengerType === "special" || opponentType === "special") {
-    await interaction.reply({
-      content: `Special moves aren't implemented yet.`,
-      ephemeral: true,
-    });
-    return;
-  }
+  cState.buff_defense = Math.max(0, cState.buff_defense);
+  oState.buff_defense = Math.max(0, oState.buff_defense);
 
-  let message = "";
-
-  const matchup = `${challengerType}_vs_${opponentType}` as const;
-
-  switch (matchup) {
-    case "offense_vs_offense": {
-      const damage1 = challengerMoveData.power;
-      const damage2 = opponentMoveData.power;
-      challengerHp -= damage2;
-      opponentHp -= damage1;
-      message = `${challengerData.username} took ${damage2} damage and ${opponentData.username} took ${damage1} damage! `;
-      break;
-    }
-    case "offense_vs_defense": {
-      const damage3 = Math.max(
-        0,
-        challengerMoveData.power - opponentMoveData.power
-      );
-      opponentHp -= damage3;
-      message = `${challengerUsername} attacked, but ${opponentUsername} defended and took ${damage3} damage!`;
-      break;
-    }
-    case "defense_vs_offense": {
-      const damage4 = Math.max(
-        0,
-        opponentMoveData.power - challengerMoveData.power
-      );
-      challengerHp -= damage4;
-      message = `${opponentUsername} attacked, but ${challengerUsername} defended and took ${damage4} damage!`;
-      break;
-    }
-    case "defense_vs_defense": {
-      message = `${challengerUsername} and ${opponentUsername} both defended. Nothing happened.`;
-      break;
-    }
-    default: {
-      message = `Unexpected matchup: ${matchup}`;
-    }
-  }
-
-  currentTurn += 1;
-
+  turn += 1;
   await redisClient.hSet(`duel:${duelId}`, {
-    [challengerHpKey]: Math.max(0, challengerHp),
-    [opponentHpKey]: Math.max(0, opponentHp),
+    [`${challengerId}:hp`]: Math.max(0, cState.hp),
+    [`${challengerId}:buff_defense`]: cState.buff_defense,
+    [`${challengerId}:buffs`]: JSON.stringify(cState.buffs),
+    [`${challengerId}:debuffs`]: JSON.stringify(cState.debuffs),
+    [`${opponentId}:hp`]: Math.max(0, oState.hp),
+    [`${opponentId}:buff_defense`]: oState.buff_defense,
+    [`${opponentId}:buffs`]: JSON.stringify(oState.buffs),
+    [`${opponentId}:debuffs`]: JSON.stringify(oState.debuffs),
+    currentTurn: turn,
     [`${challengerId}:moveUsed`]: "",
     [`${opponentId}:moveUsed`]: "",
-    currentTurn,
   });
 
-  const isChallengerDead = challengerHp <= 0;
-  const isOpponentDead = opponentHp <= 0;
-  const areBothDead = isChallengerDead && isOpponentDead;
+  const deadC = cState.hp <= 0;
+  const deadO = oState.hp <= 0;
 
-  if (areBothDead) {
+  if (deadC && deadO) {
     await redisClient.del(`duel:${duelId}`);
-    await DuelModel.deleteOne({
-      users: { $all: [challengerData.id, opponentData.id] },
-    });
-    const drawEmbed = duelDrawEmbed(
-      challengerUsername,
-      opponentUsername,
-      { challenger: challengerHp, opponent: opponentHp },
-      { challenger: challengerMaxHp, opponent: opponentMaxHp },
+    await DuelModel.deleteOne({ users: { $all: [challengerId, opponentId] } });
+    const { embed, attachment } = await duelDrawEmbed(
+      challengerUser.username,
+      opponentUser.username,
+      backgroundImage,
+      { challenger: cState.hp, opponent: oState.hp },
+      { challenger: cState.maxHp, opponent: oState.maxHp },
+      { challenger: cState.buff_defense, opponent: oState.buff_defense },
+      { challenger: cState.maxDef, opponent: oState.maxDef },
       { challenger: challengerMove, opponent: opponentMove },
-      `The duel was a draw between the challenger: ${challengerUsername} and the foe: ${opponentUsername}`
+      "Draw!"
     );
-    await interaction.reply({
-      embeds: [drawEmbed],
+    return interaction.reply({
+      embeds: [embed],
+      files: [attachment],
       components: [],
     });
-    return;
   }
 
-  if (isChallengerDead || isOpponentDead) {
-    const winnerUsername = isChallengerDead
-      ? opponentUsername
-      : challengerUsername;
-    const loserUsername = isChallengerDead
-      ? challengerUsername
-      : opponentUsername;
+  if (deadC || deadO) {
     await redisClient.del(`duel:${duelId}`);
-    await DuelModel.deleteOne({
-      users: { $all: [challengerData.id, opponentData.id] },
-    });
-
-    const wonEmbed = duelWonEmbed(
-      challengerUsername,
-      opponentUsername,
-      winnerUsername,
-      { challenger: challengerHp, opponent: opponentHp },
-      { challenger: challengerMaxHp, opponent: opponentMaxHp },
+    await DuelModel.deleteOne({ users: { $all: [challengerId, opponentId] } });
+    const winner = deadC ? opponentUser.username : challengerUser.username;
+    const { embed, attachment } = await duelWonEmbed(
+      challengerUser.username,
+      opponentUser.username,
+      backgroundImage,
+      winner,
+      { challenger: cState.hp, opponent: oState.hp },
+      { challenger: cState.maxHp, opponent: oState.maxHp },
+      { challenger: cState.buff_defense, opponent: oState.buff_defense },
+      { challenger: cState.maxDef, opponent: oState.maxDef },
       { challenger: challengerMove, opponent: opponentMove },
-      `The duel has been concluded and the winner is ${winnerUsername}`
+      "Win!"
     );
-    await interaction.reply({
-      embeds: [wonEmbed],
+    return interaction.reply({
+      embeds: [embed],
+      files: [attachment],
       components: [],
     });
-    return;
   }
 
-  const processedEmbed = duelProcessedEmbed(
-    challengerUsername,
-    opponentUsername,
-    { challenger: challengerHp, opponent: opponentHp },
-    { challenger: challengerMaxHp, opponent: opponentMaxHp },
+  const { embed, attachment } = await duelProcessedEmbed(
+    challengerUser.username,
+    opponentUser.username,
+    backgroundImage,
+    { challenger: cState.hp, opponent: oState.hp },
+    { challenger: cState.maxHp, opponent: oState.maxHp },
+    { challenger: cState.buff_defense, opponent: oState.buff_defense },
+    { challenger: cState.maxDef, opponent: oState.maxDef },
     { challenger: challengerMove, opponent: opponentMove },
-    currentTurn,
-    message
+    turn,
+    `${cRes.message}\n${oRes.message}`
   );
 
   await interaction.reply({
-    embeds: [processedEmbed],
+    embeds: [embed],
+    files: [attachment],
     components: [
       new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
         duelActionSelect.setCustomId(`duelActionSelect_${duelId}`)

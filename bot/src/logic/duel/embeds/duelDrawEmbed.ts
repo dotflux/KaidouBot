@@ -1,16 +1,29 @@
-import { EmbedBuilder } from "discord.js";
+import { AttachmentBuilder, EmbedBuilder } from "discord.js";
 import { generateHpBar } from "../../emojis/generateHpBar";
+import sharp from "sharp";
+import { generateDefBar } from "../../emojis/generateDefBar";
 
-export const duelDrawEmbed = (
+export const duelDrawEmbed = async (
   user: string,
   opponent: string,
+  base64Image: string,
   hp: { challenger: number; opponent: number },
   maxHp: { challenger: number; opponent: number },
+  def: { challenger: number; opponent: number },
+  maxDef: { challenger: number; opponent: number },
   moveUsed: { challenger: string; opponent: string },
   message: string
 ) => {
   const challengerHpBar = generateHpBar(hp.challenger, maxHp.challenger);
   const opponentHpBar = generateHpBar(hp.opponent, maxHp.opponent);
+  const challengerDefBar = generateDefBar(def.challenger, maxDef.challenger);
+  const opponentDefBar = generateDefBar(def.opponent, maxDef.opponent);
+
+  const imageBuffer = await sharp(Buffer.from(base64Image, "base64"))
+    .jpeg({ quality: 70 }) // Lower = smaller = faster
+    .toBuffer();
+  const attachment = new AttachmentBuilder(imageBuffer, { name: "duel.jpg" });
+
   const embed = new EmbedBuilder()
     .setColor("DarkPurple")
     .setTitle(`DRAW!!`)
@@ -18,18 +31,19 @@ export const duelDrawEmbed = (
     .setFields(
       {
         name: `${user}`,
-        value: `**HP:** ${hp.challenger}\n${challengerHpBar}\n**Move:** ${moveUsed.challenger}`,
+        value: `**HP:** ${hp.challenger}\n${challengerHpBar}\n**Defense:** ${def.challenger}\n${challengerDefBar}\n**Move:** ${moveUsed.challenger}`,
       },
       {
         name: `${opponent}`,
-        value: `**HP:** ${hp.opponent}\n${opponentHpBar}\n**Move:** ${moveUsed.opponent}`,
+        value: `**HP:** ${hp.opponent}\n${opponentHpBar}\n**Defense:** ${def.opponent}\n${opponentDefBar}\n**Move:** ${moveUsed.opponent}`,
       },
       {
         name: "Outcome:",
         value: message,
       }
     )
+    .setImage("attachment://duel.jpg")
     .setTimestamp();
 
-  return embed;
+  return { embed, attachment };
 };
