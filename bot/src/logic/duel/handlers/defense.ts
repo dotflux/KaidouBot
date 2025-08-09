@@ -9,7 +9,7 @@ export function handleDefense(
   opponentDelta: Partial<PlayerState>;
   message: string;
 } {
-  const boostedDef = user.buff_defense + move.power;
+  const boostedDef = user.buff_defense + (move.power ?? 0);
   const cappedDef = Math.min(boostedDef, user.maxDef);
   const actualGain = cappedDef - user.buff_defense;
 

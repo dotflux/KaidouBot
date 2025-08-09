@@ -19,16 +19,49 @@
       "description": "Slash with electrified claws, dealing significant damage."
     },
     {
-      "name": "Overload Burst",
-      "type": "special",
-      "power": 60,
-      "description": "Channel electricity into a burst, hitting the opponent twice."
-    },
-    {
       "name": "Ion Surge",
       "type": "offense",
       "power": 50,
       "description": "A burst of energy that damages and briefly stuns."
+    },
+    {
+      "name": "Shock Drain",
+      "type": "lifesteal",
+      "power": 35,
+      "description": "Strike with electrified claws that drain health from your opponent."
+    },
+    {
+      "name": "Overvolt Rampage",
+      "type": "offense",
+      "power": 75,
+      "recoil": 20,
+      "description": "A reckless surge of lightning that deals massive damage but also hurts the user due to recoil."
+    },
+    {
+      "name": "Storm Guard",
+      "type": "defense",
+      "power": 40,
+      "description": "Create a high-voltage shield that greatly reduces damage for a short duration."
+    },
+    {
+      "name": "Lightning Infusion",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.8,
+      "description": "Charge your claws with intense lightning, boosting attack power temporarily."
+    },
+    {
+      "name": "Electric Rush",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.5,
+      "description": "Supercharge your movement speed with an electric burst."
+    },
+    {
+      "name": "Pulse Heal",
+      "type": "heal",
+      "power": 30,
+      "description": "Release controlled electric pulses to stimulate rapid healing."
     }
   ],
 
@@ -52,16 +85,56 @@
       "description": "A powerful pressurized punch like a water jet."
     },
     {
-      "name": "Tidal Wave",
-      "type": "special",
-      "power": 65,
-      "description": "Unleash a wave that pushes enemies back and deals damage."
+      "name": "Ocean’s Wrath",
+      "type": "offense",
+      "power": 80,
+      "recoil": 25,
+      "description": "A devastating tidal strike that crushes opponents, but leaves the user weakened from recoil."
     },
     {
-      "name": "Whirlpool Throw",
-      "type": "special",
+      "name": "Wave Heal",
+      "type": "heal",
+      "power": 40,
+      "description": "Use flowing water energy to mend wounds."
+    },
+    {
+      "name": "Coral Armor",
+      "type": "defense",
+      "power": 45,
+      "description": "Summon hardened coral to shield yourself."
+    },
+    {
+      "name": "Current Boost",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.6,
+      "description": "Ride the currents to greatly enhance movement speed."
+    },
+    {
+      "name": "Pressure Fist",
+      "type": "offense",
       "power": 55,
-      "description": "Grab opponent and spin them in water swirl damage."
+      "recoil": 10,
+      "description": "A high-pressure blow that deals heavy damage with minor recoil."
+    },
+    {
+      "name": "Water Spirit Focus",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.7,
+      "description": "Channel the spirit of the sea to temporarily boost attack power."
+    },
+    {
+      "name": "Bubble Barrier",
+      "type": "defense",
+      "power": 35,
+      "description": "Encase yourself in a bubble layer that absorbs damage."
+    },
+    {
+      "name": "Jet Absorb",
+      "type": "lifesteal",
+      "power": 20,
+      "description": "Strike with jet fast fists health drain"
     }
   ],
 
@@ -85,16 +158,50 @@
       "description": "Spin gears around opponent, slicing them."
     },
     {
-      "name": "Rocket Boost",
-      "type": "special",
-      "power": 50,
-      "description": "Boost forward rapidly, tackling the enemy."
+      "name": "Hydraulic Smash",
+      "type": "offense",
+      "power": 65,
+      "recoil": 15,
+      "description": "Bring down a hydraulic arm with immense force, damaging both enemy and user due to recoil."
     },
     {
-      "name": "EMP Blast",
-      "type": "special",
-      "power": 60,
-      "description": "Release an electromagnetic pulse that deals damage and disables abilities."
+      "name": "Wrench Drain",
+      "type": "lifesteal",
+      "power": 30,
+      "description": "Swing a charged wrench that siphons health from the opponent."
+    },
+    {
+      "name": "Repair Mode",
+      "type": "heal",
+      "power": 35,
+      "description": "Self-repair mechanical parts to restore health."
+    },
+    {
+      "name": "Turbo Charge",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.9,
+      "description": "Overload the engine to drastically increase movement speed temporarily."
+    },
+    {
+      "name": "Steel Barricade",
+      "type": "defense",
+      "power": 50,
+      "description": "Deploy a reinforced steel barrier to block attacks."
+    },
+    {
+      "name": "Overclock Strike",
+      "type": "offense",
+      "power": 90,
+      "recoil": 30,
+      "description": "A fully overclocked punch that deals massive damage but causes severe recoil damage."
+    },
+    {
+      "name": "Lubricant Boost",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 2.0,
+      "description": "Reduce friction in all moving parts, greatly increasing attack power."
     }
   ],
 
@@ -124,17 +231,205 @@
       "description": "A lightning-fast jab that hits twice."
     },
     {
-      "name": "Iron Fist",
-      "type": "special",
-      "power": 70,
-      "description": "A devastating punch that breaks defense."
-    },
-    {
       "name": "Iron Rush",
       "type": "buff",
       "buffType": "offense",
       "buffPower": 1.2,
-      "description": "Simulate a surge of iron that increases your offense"
+      "description": "Simulate a surge of iron that increases your offense."
+    },
+    {
+      "name": "Regeneration Guard",
+      "type": "heal",
+      "power": 25,
+      "description": "Brace yourself and focus to heal minor wounds."
+    },
+    {
+      "name": "Adrenaline Burst",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.5,
+      "description": "Flood your body with adrenaline to increase speed."
+    },
+    {
+      "name": "Bone Breaker",
+      "type": "offense",
+      "power": 70,
+      "recoil": 20,
+      "description": "A reckless, bone-crushing punch that also injures the user from recoil."
+    },
+    {
+      "name": "Interrogate",
+      "type": "lifesteal",
+      "power": 35,
+      "description": "Strike fear in your enemies, heals you with lifesteal"
+    },
+    {
+      "name": "Steel Guard",
+      "type": "defense",
+      "power": 40,
+      "description": "Harden your stance to block even heavy attacks."
+    },
+    {
+      "name": "Critical Blow",
+      "type": "offense",
+      "power": 85,
+      "recoil": 25,
+      "description": "A precision strike aimed at vital points, dealing huge damage but with significant recoil."
+    }
+  ],
+
+  "mera": [
+    {
+      "name": "Fire Fist",
+      "type": "offense",
+      "power": 70,
+      "description": "Launch a massive fist-shaped burst of fire that burns everything in its path."
+    },
+    {
+      "name": "Flame Pillar",
+      "type": "offense",
+      "power": 55,
+      "description": "Create a towering column of fire to engulf enemies."
+    },
+    {
+      "name": "Blazing Armor",
+      "type": "defense",
+      "power": 30,
+      "description": "Surround yourself in flames to burn attackers on contact and reduce damage."
+    },
+    {
+      "name": "Inferno Burst",
+      "type": "offense",
+      "power": 90,
+      "recoil": 20,
+      "description": "Unleash a massive explosion of fire, damaging both foes and self."
+    },
+    {
+      "name": "Flame Regeneration",
+      "type": "heal",
+      "power": 25,
+      "description": "Use the heat to cauterize wounds and restore vitality."
+    },
+    {
+      "name": "Solar Flare",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.8,
+      "description": "Channel intense solar energy to increase attack power."
+    },
+    {
+      "name": "Wildfire Wave",
+      "type": "offense",
+      "power": 60,
+      "description": "Send a sweeping wave of fire across the battlefield."
+    },
+    {
+      "name": "Heat Mirage",
+      "type": "buff",
+      "buffType": "evasion",
+      "buffPower": 1.7,
+      "description": "Use intense heat distortion to make yourself harder to target."
+    }
+  ],
+
+  "gomu": [
+    {
+      "name": "Gear Second",
+      "type": "transformation",
+      "form": "gear2",
+      "description": "Pump blood rapidly to enhance speed and strength, giving a temporary battle boost."
+    },
+    {
+      "name": "Gear Third",
+      "type": "transformation",
+      "form": "gear3",
+      "description": "Inflate your bones to deliver massive blows with gigantic limbs."
+    },
+    {
+      "name": "Gear Fourth: Boundman",
+      "type": "transformation",
+      "form": "boundman",
+      "description": "Enhance elasticity and muscle compression for explosive power and speed."
+    },
+    {
+      "name": "Gear Fourth: Snakeman",
+      "type": "transformation",
+      "form": "snakeman",
+      "description": "Increase attack speed and unpredictability, perfect for overwhelming opponents."
+    },
+    {
+      "name": "Gear Fifth",
+      "type": "transformation",
+      "form": "gear5",
+      "description": "Awaken the true power of the fruit, turning the environment into rubber and fighting with cartoon-like freedom."
+    }
+  ],
+  "gear2": [
+    {
+      "name": "Jet Pistol",
+      "type": "offense",
+      "power": 80,
+      "description": "A lightning-fast punch delivered with enhanced speed and power."
+    },
+    {
+      "name": "Jet Bazooka",
+      "type": "offense",
+      "power": 95,
+      "recoil": 15,
+      "description": "Two powerful fists slam forward like a cannon blast, knocking back foes."
+    },
+    {
+      "name": "Jet Shield",
+      "type": "defense",
+      "power": 40,
+      "description": "Use rapid arm movement to create a shockwave barrier that reduces incoming damage."
+    },
+    {
+      "name": "Pulse Dash",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 2.0,
+      "description": "Increase movement speed drastically for quick evasions or fast strikes."
+    },
+    {
+      "name": "Jet Whip",
+      "type": "offense",
+      "power": 70,
+      "description": "Stretch your arm at high velocity to sweep enemies across the battlefield."
+    }
+  ],
+  "gear3": [
+    {
+      "name": "Giant Pistol",
+      "type": "offense",
+      "power": 120,
+      "description": "Deliver a massive enlarged fist strike that crushes anything in its path."
+    },
+    {
+      "name": "Giant Shield",
+      "type": "defense",
+      "power": 60,
+      "description": "Use an enlarged arm to block incoming attacks and protect allies."
+    },
+    {
+      "name": "Titan Slam",
+      "type": "offense",
+      "power": 110,
+      "recoil": 10,
+      "description": "Leap high and slam a gigantic limb into the ground, causing a shockwave."
+    },
+    {
+      "name": "Colossus Guard",
+      "type": "buff",
+      "buffType": "defense",
+      "buffPower": 2.2,
+      "description": "Harden enlarged limbs to drastically increase defense."
+    },
+    {
+      "name": "Giant Gatling",
+      "type": "offense",
+      "power": 85,
+      "description": "Unleash a barrage of enormous punches in rapid succession."
     }
   ]
 }

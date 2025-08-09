@@ -64,8 +64,12 @@ export const createDuelBattleground = async (
     [`${canInteract[1]}:buff_offense`]: 0,
     [`${canInteract[0]}:buff_defense`]: 0,
     [`${canInteract[1]}:buff_defense`]: 50,
+    [`${canInteract[0]}:buff_speed`]: 50,
+    [`${canInteract[1]}:buff_speed`]: 50,
     [`${canInteract[0]}:maxDef`]: challengerUser.maxDef,
     [`${canInteract[1]}:maxDef`]: opponentUser.maxDef,
+    [`${canInteract[0]}:form`]: "",
+    [`${canInteract[1]}:form`]: "",
 
     currentTurn: 0,
   });
