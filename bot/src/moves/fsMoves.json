@@ -431,5 +431,48 @@
       "power": 85,
       "description": "Unleash a barrage of enormous punches in rapid succession."
     }
+  ],
+
+  "rokushiki": [
+    {
+      "name": "Soru Step",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 2.0,
+      "description": "Dash at blinding speed."
+    },
+    {
+      "name": "Geppo Kick",
+      "type": "offense",
+      "power": 50,
+      "description": "Kick the air to to propel yourself"
+    },
+    {
+      "name": "Tekkai Brace",
+      "type": "defense",
+      "power": 60,
+      "description": "Harden your muscles like iron."
+    },
+    {
+      "name": "Shigan Pierce",
+      "type": "offense",
+      "power": 75,
+      "recoil": 10,
+      "description": "A deadly finger-shot."
+    },
+    {
+      "name": "Rankyaku Blade",
+      "type": "offense",
+      "power": 55,
+      "recoil": 5,
+      "description": "Slice the air to create a sharp flying blade."
+    },
+    {
+      "name": "Kami-e Flow",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 3.0,
+      "description": "Relax and flow like paper to increase speed."
+    }
   ]
 }
