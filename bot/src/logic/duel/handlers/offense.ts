@@ -41,7 +41,7 @@ export function handleOffense(
       `⚔️ **${user.username}** attacks for **${totalAtk}**, ` +
       `${remainingAtk} damage got through after defense!` +
       (recoilDamage > 0
-        ? `\n💥 Recoil! You took **${recoilDamage}** damage!`
+        ? `\n💥 Recoil! ${user.username} took **${recoilDamage}** damage!`
         : ""),
   };
 }

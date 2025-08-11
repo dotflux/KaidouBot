@@ -9,8 +9,6 @@ import * as acceptDuelButton from "./logic/duel/buttons/acceptDuelButton";
 import * as rejectDuelButton from "./logic/duel/buttons/rejectDuelButton";
 import * as duelActionSelect from "./logic/duel/dropdowns/duelActionCallback";
 import * as fsSelect from "./logic/duel/dropdowns/fsSelect";
-import * as dfSelect from "./logic/duel/dropdowns/dfSelect";
-import * as tfSelect from "./logic/duel/dropdowns/transformationSelect";
 
 export async function handleInteraction(interaction: Interaction) {
   if (interaction.isChatInputCommand()) {
@@ -31,9 +29,13 @@ export async function handleInteraction(interaction: Interaction) {
     if (interaction.customId.startsWith("duelActionFs_"))
       return fsSelect.execute(interaction);
     if (interaction.customId.startsWith("duelActionDf_"))
-      return dfSelect.execute(interaction);
+      return fsSelect.execute(interaction);
     if (interaction.customId.startsWith("duelActionTf_"))
-      return tfSelect.execute(interaction);
+      return fsSelect.execute(interaction);
+    if (interaction.customId.startsWith("duelActionRoku_"))
+      return fsSelect.execute(interaction);
+    if (interaction.customId.startsWith("duelActionWeapon_"))
+      return fsSelect.execute(interaction);
   }
   if (interaction.isButton()) {
     if (interaction.customId.startsWith("duelAccept_"))

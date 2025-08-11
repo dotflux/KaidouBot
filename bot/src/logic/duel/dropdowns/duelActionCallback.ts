@@ -11,6 +11,8 @@ import { DuelModel } from "../../../db/models/duel";
 import redisClient from "../../../db/redis";
 import { buildDevilFruitMoveDropdown } from "./duelActionFs";
 import { buildTransformationDropdown } from "./duelActionFs";
+import { buildRokushikiDropdown } from "./duelActionFs";
+import { buildWeaponDropdown } from "./duelActionFs";
 
 export const execute = async (interaction: StringSelectMenuInteraction) => {
   try {
@@ -99,6 +101,53 @@ export const execute = async (interaction: StringSelectMenuInteraction) => {
         interaction.user.id,
         duelId
       );
+
+      if (!dropdown) {
+        await interaction.reply({
+          content: "Could not find your moves.",
+          flags: MessageFlags.Ephemeral,
+        });
+        return;
+      }
+
+      await interaction.reply({
+        content: "Pick your move",
+        components: [
+          new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+            dropdown
+          ),
+        ],
+        flags: MessageFlags.Ephemeral,
+      });
+    }
+
+    if (action === "rokushiki") {
+      const dropdown = await buildRokushikiDropdown(
+        interaction.user.id,
+        duelId
+      );
+
+      if (!dropdown) {
+        await interaction.reply({
+          content: "Could not find your moves.",
+          flags: MessageFlags.Ephemeral,
+        });
+        return;
+      }
+
+      await interaction.reply({
+        content: "Pick your move",
+        components: [
+          new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+            dropdown
+          ),
+        ],
+        flags: MessageFlags.Ephemeral,
+      });
+    }
+
+    if (action === "weapon") {
+      const dropdown = await buildWeaponDropdown(interaction.user.id, duelId);
 
       if (!dropdown) {
         await interaction.reply({

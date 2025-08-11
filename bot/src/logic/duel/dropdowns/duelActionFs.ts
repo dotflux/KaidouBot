@@ -62,7 +62,7 @@ export const buildFightingStyleMoveDropdown = async (
 
   const dropdown = new StringSelectMenuBuilder()
     .setCustomId(`duelActionFs_${duelId}_${userId}`)
-    .setPlaceholder("Select your move")
+    .setPlaceholder("Select your fighting style move")
     .setMinValues(1)
     .setMaxValues(1)
     // addOptions accepts array of API option objects
@@ -115,7 +115,7 @@ export const buildDevilFruitMoveDropdown = async (
 
   const dropdown = new StringSelectMenuBuilder()
     .setCustomId(`duelActionDf_${duelId}_${userId}`)
-    .setPlaceholder("Select your move")
+    .setPlaceholder("Select your devil fruit move")
     .setMinValues(1)
     .setMaxValues(1)
     // addOptions accepts array of API option objects
@@ -165,7 +165,7 @@ export const buildTransformationDropdown = async (
   // 4) Build dropdown
   const dropdown = new StringSelectMenuBuilder()
     .setCustomId(`duelActionTf_${duelId}_${userId}`)
-    .setPlaceholder("Select your move")
+    .setPlaceholder("Select your transformation move")
     .setMinValues(1)
     .setMaxValues(1)
     .addOptions(options as any);
@@ -176,5 +176,99 @@ export const buildTransformationDropdown = async (
 export const buildRokushikiDropdown = async (
   userId: string,
   duelId: string
-) => {};
-export const buildWeaponDropdown = async (userId: string, duelId: string) => {};
+) => {
+  const user = await UserModel.findOne({ userId })
+    .select({ moves: 1 })
+    .lean()
+    .exec();
+
+  if (!user) return null;
+
+  const fsMoves: MoveData[] =
+    ((user as any).moves?.rokushiki as MoveData[]) || [];
+  if (fsMoves.length === 0) return null;
+
+  // Map to select menu options
+  const options = fsMoves.slice(0, MAX_OPTIONS).map((move) => {
+    const label = truncate(move.name, MAX_LABEL);
+    let desc = "";
+
+    if (move.type === "buff") {
+      desc = `Type: ${move.type}, Buff: ${(move as any).buffType}, Power: ${
+        (move as any).buffPower
+      }`;
+    } else if (move.type === "transformation") {
+      desc = `Type: ${move.type}, Form: ${(move as any).form}`;
+    } else {
+      desc = `Power: ${move.power ?? "—"}, Type: ${move.type}, ${
+        move.description ?? "No description"
+      }`;
+    }
+    desc = truncate(desc, MAX_DESC);
+
+    return {
+      label,
+      value: move.name,
+      description: desc,
+    };
+  });
+
+  const dropdown = new StringSelectMenuBuilder()
+    .setCustomId(`duelActionRoku_${duelId}_${userId}`)
+    .setPlaceholder("Select your Rokushiki move")
+    .setMinValues(1)
+    .setMaxValues(1)
+    .addOptions(options as any);
+
+  return dropdown;
+};
+export const buildWeaponDropdown = async (userId: string, duelId: string) => {
+  const user = await UserModel.findOne({ userId })
+    .select({ moves: 1, equippedWeapon: 1 })
+    .lean()
+    .exec();
+
+  if (!user) return null;
+  console.log("Users weapon: ", user.equippedWeapon);
+
+  const styleKey: string = (user as any).equippedWeapon;
+  const fsMoves: MoveData[] =
+    ((user as any).moves?.[styleKey] as MoveData[]) || [];
+
+  if (!fsMoves || fsMoves.length === 0) return null;
+
+  // 2) limit & map to API option objects (no builder per option)
+  const options = fsMoves.slice(0, MAX_OPTIONS).map((move) => {
+    const label = truncate(move.name, MAX_LABEL);
+    // describe based on move type safely
+    let desc = "";
+    if (move.type === "buff") {
+      desc = `Type: ${move.type}, Buff: ${(move as any).buffType}, Power: ${
+        (move as any).buffPower
+      }`;
+    } else if (move.type === "transformation") {
+      desc = `Type: ${move.type}, Form: ${(move as any).form}`;
+    } else {
+      desc = `Power: ${move.power ?? "—"}, Type: ${move.type}, ${
+        move.description ?? "No description"
+      }`;
+    }
+    desc = truncate(desc, MAX_DESC);
+
+    return {
+      label,
+      value: move.name,
+      description: desc,
+    };
+  });
+
+  const dropdown = new StringSelectMenuBuilder()
+    .setCustomId(`duelActionWeapon_${duelId}_${userId}`)
+    .setPlaceholder("Select your weapon move")
+    .setMinValues(1)
+    .setMaxValues(1)
+    // addOptions accepts array of API option objects
+    .addOptions(options as any);
+
+  return dropdown;
+};

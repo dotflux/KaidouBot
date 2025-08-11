@@ -57,15 +57,15 @@ export const createDuelBattleground = async (
     [`${canInteract[0]}:moveUsed`]: "",
     [`${canInteract[1]}:moveUsed`]: "",
 
-    [`${canInteract[0]}:speed`]: 40,
-    [`${canInteract[1]}:speed`]: 20,
+    [`${canInteract[0]}:speed`]: 0,
+    [`${canInteract[1]}:speed`]: 0,
 
     [`${canInteract[0]}:buff_offense`]: 0,
     [`${canInteract[1]}:buff_offense`]: 0,
-    [`${canInteract[0]}:buff_defense`]: 0,
-    [`${canInteract[1]}:buff_defense`]: 50,
-    [`${canInteract[0]}:buff_speed`]: 50,
-    [`${canInteract[1]}:buff_speed`]: 50,
+    [`${canInteract[0]}:buff_defense`]: challengerUser.initialDef,
+    [`${canInteract[1]}:buff_defense`]: opponentUser.initialDef,
+    [`${canInteract[0]}:buff_speed`]: 0,
+    [`${canInteract[1]}:buff_speed`]: 0,
     [`${canInteract[0]}:maxDef`]: challengerUser.maxDef,
     [`${canInteract[1]}:maxDef`]: opponentUser.maxDef,
     [`${canInteract[0]}:form`]: "",
@@ -81,7 +81,10 @@ export const createDuelBattleground = async (
     userObjs.opponent.username,
     base64Image,
     { challenger: challengerUser.maxHp, opponent: opponentUser.maxHp },
-    { challenger: 0, opponent: 50 },
+    {
+      challenger: challengerUser.initialDef,
+      opponent: opponentUser.initialDef,
+    },
     { challenger: challengerUser.maxDef, opponent: opponentUser.maxDef }
   );
 

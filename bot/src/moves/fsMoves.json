@@ -435,44 +435,61 @@
 
   "rokushiki": [
     {
-      "name": "Soru Step",
+      "name": "Soru",
       "type": "buff",
       "buffType": "speed",
       "buffPower": 2.0,
       "description": "Dash at blinding speed."
     },
     {
-      "name": "Geppo Kick",
+      "name": "Geppo",
       "type": "offense",
       "power": 50,
       "description": "Kick the air to to propel yourself"
     },
     {
-      "name": "Tekkai Brace",
+      "name": "Tekkai",
       "type": "defense",
       "power": 60,
       "description": "Harden your muscles like iron."
     },
     {
-      "name": "Shigan Pierce",
+      "name": "Shigan",
       "type": "offense",
       "power": 75,
       "recoil": 10,
       "description": "A deadly finger-shot."
     },
     {
-      "name": "Rankyaku Blade",
+      "name": "Rankyaku",
       "type": "offense",
       "power": 55,
       "recoil": 5,
       "description": "Slice the air to create a sharp flying blade."
     },
     {
-      "name": "Kami-e Flow",
+      "name": "Kami-e",
       "type": "buff",
       "buffType": "speed",
       "buffPower": 3.0,
       "description": "Relax and flow like paper to increase speed."
+    }
+  ],
+
+  "ace": [
+    {
+      "name": "Final Resort",
+      "type": "offense",
+      "power": 70,
+      "recoil": 30,
+      "description": "Lunge towards the enemy as a final resort."
+    },
+    {
+      "name": "Divine Departure",
+      "type": "offense",
+      "power": 150,
+      "recoil": 50,
+      "description": "Send a sweeping wave of supreme haki."
     }
   ]
 }
