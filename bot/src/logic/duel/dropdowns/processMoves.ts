@@ -5,6 +5,7 @@ import {
 } from "discord.js";
 import redisClient from "../../../db/redis";
 import { DuelModel } from "../../../db/models/duel";
+import { DuelModel as _DuelModel } from "../../../db/models/duel";
 import { duelProcessedEmbed } from "../embeds/duelProcessedEmbed";
 import { duelDrawEmbed } from "../embeds/duelDrawEmbed";
 import { duelWonEmbed } from "../embeds/duelWonEmbed";
@@ -12,6 +13,7 @@ import { moveHandlers } from "../handlers";
 import { PlayerState, MoveData } from "../moves";
 import fsMoves from "../../../moves/fsMoves.json";
 import { duelActionSelect } from "./duelActionSelect";
+import { UserModel } from "../../../db/models/user";
 
 const moveMap: Map<string, MoveData> = (() => {
   const m = new Map<string, MoveData>();
@@ -131,10 +133,7 @@ export const processMoves = async (
   const cMove = lookup(challengerMove);
   const oMove = lookup(opponentMove);
 
-  const applyOpponentDelta = (
-    target: PlayerState,
-    delta: Partial<PlayerState> | undefined
-  ) => {
+  const applyDelta = (target: PlayerState, delta?: Partial<PlayerState>) => {
     if (!delta) return;
     if (delta.hp !== undefined) target.hp += delta.hp;
     if (delta.buff_defense !== undefined)
@@ -142,138 +141,112 @@ export const processMoves = async (
     if (delta.buff_offense !== undefined)
       target.buff_offense = delta.buff_offense;
     if (delta.buff_speed !== undefined) target.buff_speed = delta.buff_speed;
-    if ((delta as any).form !== undefined) target.form = (delta as any).form;
+    if ((delta as any).form !== undefined)
+      (target as any).form = (delta as any).form;
   };
 
-  const applyUserDelta = (
-    target: PlayerState,
-    delta: Partial<PlayerState> | undefined
+  const persistStateAndEnd = async (
+    reasonWinnerId: string,
+    reasonLoserId: string,
+    winnerName: string,
+    loserName: string,
+    winnerIsChallenger: boolean,
+    finalMsg: string
   ) => {
-    if (!delta) return;
-    if (delta.hp !== undefined) target.hp += delta.hp;
-    if (delta.buff_defense !== undefined)
-      target.buff_defense = delta.buff_defense;
-    if (delta.buff_offense !== undefined)
-      target.buff_offense = delta.buff_offense;
-    if (delta.buff_speed !== undefined) target.buff_speed = delta.buff_speed;
-    if ((delta as any).form !== undefined) target.form = (delta as any).form;
+    turn += 1;
+    await redisClient.hSet(`duel:${duelId}`, {
+      [`${challengerId}:hp`]: Math.max(0, cState.hp),
+      [`${challengerId}:buff_defense`]: cState.buff_defense,
+      [`${challengerId}:buff_offense`]: cState.buff_offense,
+      [`${challengerId}:buff_speed`]: cState.buff_speed,
+      [`${challengerId}:form`]: cState.form,
+      [`${challengerId}:buffs`]: JSON.stringify(cState.buffs),
+      [`${challengerId}:debuffs`]: JSON.stringify(cState.debuffs),
+      [`${opponentId}:hp`]: Math.max(0, oState.hp),
+      [`${opponentId}:buff_defense`]: oState.buff_defense,
+      [`${opponentId}:buff_offense`]: oState.buff_offense,
+      [`${opponentId}:buff_speed`]: oState.buff_speed,
+      [`${opponentId}:form`]: oState.form,
+      [`${opponentId}:buffs`]: JSON.stringify(oState.buffs),
+      [`${opponentId}:debuffs`]: JSON.stringify(oState.debuffs),
+      currentTurn: turn,
+      [`${challengerId}:moveUsed`]: "",
+      [`${opponentId}:moveUsed`]: "",
+    });
+    await redisClient.del(`duel:${duelId}`);
+    await DuelModel.deleteOne({ users: { $all: [challengerId, opponentId] } });
+    await UserModel.updateOne(
+      { userId: reasonWinnerId },
+      { $inc: { duelsWon: 1 } }
+    );
+    await UserModel.updateOne(
+      { userId: reasonLoserId },
+      { $inc: { duelsLost: 1 } }
+    );
+    const { embed, attachment } = await duelWonEmbed(
+      challengerUser.username,
+      opponentUser.username,
+      backgroundImage,
+      winnerName,
+      { challenger: cState.hp, opponent: oState.hp },
+      { challenger: cState.maxHp, opponent: oState.maxHp },
+      { challenger: cState.buff_defense, opponent: oState.buff_defense },
+      { challenger: cState.maxDef, opponent: oState.maxDef },
+      { challenger: challengerMove, opponent: opponentMove },
+      finalMsg
+    );
+    return interaction.reply({
+      embeds: [embed],
+      files: [attachment],
+      components: [],
+    });
   };
 
   const cSpeed = cState.buff_speed;
   const oSpeed = oState.buff_speed;
-  let challengerFirst = false;
-  if (cSpeed > oSpeed) challengerFirst = true;
-  else if (cSpeed < oSpeed) challengerFirst = false;
-  else challengerFirst = Math.random() < 0.5;
+  const challengerFirst =
+    cSpeed > oSpeed ? true : cSpeed < oSpeed ? false : Math.random() < 0.5;
 
   let firstRes, secondRes;
+
   if (challengerFirst) {
     firstRes = moveHandlers[cMove.type](cState, oState, cMove);
-    applyOpponentDelta(oState, firstRes.opponentDelta);
-    applyUserDelta(cState, firstRes.userDelta);
+    applyDelta(oState, firstRes.opponentDelta);
+    applyDelta(cState, firstRes.userDelta);
     if (oState.hp <= 0) {
-      turn += 1;
-      await redisClient.hSet(`duel:${duelId}`, {
-        [`${challengerId}:hp`]: Math.max(0, cState.hp),
-        [`${challengerId}:buff_defense`]: cState.buff_defense,
-        [`${challengerId}:buff_offense`]: cState.buff_offense,
-        [`${challengerId}:buff_speed`]: cState.buff_speed,
-        [`${challengerId}:form`]: cState.form,
-        [`${challengerId}:buffs`]: JSON.stringify(cState.buffs),
-        [`${challengerId}:debuffs`]: JSON.stringify(cState.debuffs),
-        [`${opponentId}:hp`]: Math.max(0, oState.hp),
-        [`${opponentId}:buff_defense`]: oState.buff_defense,
-        [`${opponentId}:buff_offense`]: oState.buff_offense,
-        [`${opponentId}:buff_speed`]: oState.buff_speed,
-        [`${opponentId}:buffs`]: JSON.stringify(oState.buffs),
-        [`${opponentId}:debuffs`]: JSON.stringify(oState.debuffs),
-        [`${opponentId}:form`]: oState.form,
-        currentTurn: turn,
-        [`${challengerId}:moveUsed`]: "",
-        [`${opponentId}:moveUsed`]: "",
-      });
-      await redisClient.del(`duel:${duelId}`);
-      await DuelModel.deleteOne({
-        users: { $all: [challengerId, opponentId] },
-      });
-      const winner = challengerUser.username;
-      const { embed, attachment } = await duelWonEmbed(
+      return await persistStateAndEnd(
+        challengerId,
+        challengerId === opponentId ? challengerId : opponentId,
         challengerUser.username,
         opponentUser.username,
-        backgroundImage,
-        winner,
-        { challenger: cState.hp, opponent: oState.hp },
-        { challenger: cState.maxHp, opponent: oState.maxHp },
-        { challenger: cState.buff_defense, opponent: oState.buff_defense },
-        { challenger: cState.maxDef, opponent: oState.maxDef },
-        { challenger: challengerMove, opponent: opponentMove },
-        "Win!"
+        true,
+        `${challengerUser.username} wins!`
       );
-      return interaction.reply({
-        embeds: [embed],
-        files: [attachment],
-        components: [],
-      });
     }
     secondRes = moveHandlers[oMove.type](oState, cState, oMove);
-    applyOpponentDelta(cState, secondRes.opponentDelta);
-    applyUserDelta(oState, secondRes.userDelta);
+    applyDelta(cState, secondRes.opponentDelta);
+    applyDelta(oState, secondRes.userDelta);
   } else {
     firstRes = moveHandlers[oMove.type](oState, cState, oMove);
-    applyOpponentDelta(cState, firstRes.opponentDelta);
-    applyUserDelta(oState, firstRes.userDelta);
+    applyDelta(cState, firstRes.opponentDelta);
+    applyDelta(oState, firstRes.userDelta);
     if (cState.hp <= 0) {
-      turn += 1;
-      await redisClient.hSet(`duel:${duelId}`, {
-        [`${challengerId}:hp`]: Math.max(0, cState.hp),
-        [`${challengerId}:buff_defense`]: cState.buff_defense,
-        [`${challengerId}:buff_offense`]: cState.buff_offense,
-        [`${challengerId}:buff_speed`]: cState.buff_speed,
-        [`${challengerId}:form`]: cState.form,
-        [`${challengerId}:buffs`]: JSON.stringify(cState.buffs),
-        [`${challengerId}:debuffs`]: JSON.stringify(cState.debuffs),
-        [`${opponentId}:hp`]: Math.max(0, oState.hp),
-        [`${opponentId}:buff_defense`]: oState.buff_defense,
-        [`${opponentId}:buff_offense`]: oState.buff_offense,
-        [`${opponentId}:buff_speed`]: oState.buff_speed,
-        [`${opponentId}:buffs`]: JSON.stringify(oState.buffs),
-        [`${opponentId}:debuffs`]: JSON.stringify(oState.debuffs),
-        [`${opponentId}:form`]: oState.form,
-        currentTurn: turn,
-        [`${challengerId}:moveUsed`]: "",
-        [`${opponentId}:moveUsed`]: "",
-      });
-      await redisClient.del(`duel:${duelId}`);
-      await DuelModel.deleteOne({
-        users: { $all: [challengerId, opponentId] },
-      });
-      const winner = opponentUser.username;
-      const { embed, attachment } = await duelWonEmbed(
-        challengerUser.username,
+      return await persistStateAndEnd(
+        opponentId,
+        opponentId === challengerId ? opponentId : challengerId,
         opponentUser.username,
-        backgroundImage,
-        winner,
-        { challenger: cState.hp, opponent: oState.hp },
-        { challenger: cState.maxHp, opponent: oState.maxHp },
-        { challenger: cState.buff_defense, opponent: oState.buff_defense },
-        { challenger: cState.maxDef, opponent: oState.maxDef },
-        { challenger: challengerMove, opponent: opponentMove },
-        "Win!"
+        challengerUser.username,
+        false,
+        `${opponentUser.username} wins!`
       );
-      return interaction.reply({
-        embeds: [embed],
-        files: [attachment],
-        components: [],
-      });
     }
     secondRes = moveHandlers[cMove.type](cState, oState, cMove);
-    applyOpponentDelta(oState, secondRes.opponentDelta);
-    applyUserDelta(cState, secondRes.userDelta);
+    applyDelta(oState, secondRes.opponentDelta);
+    applyDelta(cState, secondRes.userDelta);
   }
 
   cState.buff_defense = Math.max(0, cState.buff_defense);
   oState.buff_defense = Math.max(0, oState.buff_defense);
-
   cState.hp = Math.min(cState.maxHp, cState.hp);
   oState.hp = Math.min(oState.maxHp, oState.hp);
 
@@ -286,15 +259,13 @@ export const processMoves = async (
     [`${challengerId}:form`]: cState.form,
     [`${challengerId}:buffs`]: JSON.stringify(cState.buffs),
     [`${challengerId}:debuffs`]: JSON.stringify(cState.debuffs),
-
     [`${opponentId}:hp`]: Math.max(0, oState.hp),
     [`${opponentId}:buff_defense`]: oState.buff_defense,
     [`${opponentId}:buff_offense`]: oState.buff_offense,
     [`${opponentId}:buff_speed`]: oState.buff_speed,
+    [`${opponentId}:form`]: oState.form,
     [`${opponentId}:buffs`]: JSON.stringify(oState.buffs),
     [`${opponentId}:debuffs`]: JSON.stringify(oState.debuffs),
-    [`${opponentId}:form`]: oState.form,
-
     currentTurn: turn,
     [`${challengerId}:moveUsed`]: "",
     [`${opponentId}:moveUsed`]: "",
@@ -325,9 +296,14 @@ export const processMoves = async (
   }
 
   if (deadC || deadO) {
+    const winnerId = deadC ? opponentUser.id : challengerUser.id;
+    const loserId = deadC ? challengerUser.id : opponentUser.id;
+    const winner = deadC ? opponentUser.username : challengerUser.username;
+    const loser = deadC ? challengerUser.username : opponentUser.username;
     await redisClient.del(`duel:${duelId}`);
     await DuelModel.deleteOne({ users: { $all: [challengerId, opponentId] } });
-    const winner = deadC ? opponentUser.username : challengerUser.username;
+    await UserModel.updateOne({ userId: winnerId }, { $inc: { duelsWon: 1 } });
+    await UserModel.updateOne({ userId: loserId }, { $inc: { duelsLost: 1 } });
     const { embed, attachment } = await duelWonEmbed(
       challengerUser.username,
       opponentUser.username,
@@ -338,7 +314,7 @@ export const processMoves = async (
       { challenger: cState.buff_defense, opponent: oState.buff_defense },
       { challenger: cState.maxDef, opponent: oState.maxDef },
       { challenger: challengerMove, opponent: opponentMove },
-      "Win!"
+      `The duel has been concluded. ${winner} triumphs over ${loser}.`
     );
     return interaction.reply({
       embeds: [embed],
@@ -357,7 +333,7 @@ export const processMoves = async (
     { challenger: cState.maxDef, opponent: oState.maxDef },
     { challenger: challengerMove, opponent: opponentMove },
     turn,
-    `${firstRes.message}\n${secondRes.message}`
+    `${firstRes?.message ?? ""}\n${secondRes?.message ?? ""}`
   );
 
   await interaction.reply({

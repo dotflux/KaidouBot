@@ -5,6 +5,7 @@ import {
 } from "discord.js";
 import { UserModel } from "../db/models/user";
 import { errorEmbed } from "../logic/register/errorEmbed";
+import { sendProfile } from "../logic/profile/sendProfile";
 
 export const data = new SlashCommandBuilder()
   .setName("profile")
@@ -20,5 +21,5 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
     });
     return;
   }
-  await interaction.reply({ content: "Shows profile" });
+  await sendProfile(interaction);
 };

@@ -38,12 +38,17 @@ const userSchema = new mongoose.Schema({
     default: {},
   },
   rokushiki: { type: [String], default: [] },
-  money: { type: Number, default: 0 },
+  money: { type: Number, default: 500 },
+  gems: { type: Number, default: 0 },
   maxHp: { type: Number, default: 50 },
   maxDef: { type: Number, default: 50 },
   initialDef: { type: Number, default: 0 },
   speed: { type: Number, default: 10 },
   currentDf: { type: String, default: "" },
+  xp: { type: Number, default: 0 },
+  nextRankXp: { type: Number, default: 100 },
+  duelsWon: { type: Number, default: 0 },
+  duelsLost: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
 });
 
