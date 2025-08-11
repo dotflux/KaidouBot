@@ -104,7 +104,7 @@ export const execute = async (interaction: StringSelectMenuInteraction) => {
 
       if (!dropdown) {
         await interaction.reply({
-          content: "Could not find your moves.",
+          content: "You have not used a transformation",
           flags: MessageFlags.Ephemeral,
         });
         return;

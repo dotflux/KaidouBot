@@ -42,8 +42,8 @@ const userSchema = new mongoose.Schema({
   maxHp: { type: Number, default: 50 },
   maxDef: { type: Number, default: 50 },
   initialDef: { type: Number, default: 0 },
+  speed: { type: Number, default: 10 },
   currentDf: { type: String, default: "" },
-  inventory: { type: Array, default: [] },
   createdAt: { type: Date, default: Date.now },
 });
 

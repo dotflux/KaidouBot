@@ -368,24 +368,18 @@
     {
       "name": "Jet Pistol",
       "type": "offense",
-      "power": 80,
+      "power": 60,
       "description": "A lightning-fast punch delivered with enhanced speed and power."
     },
     {
       "name": "Jet Bazooka",
       "type": "offense",
-      "power": 95,
+      "power": 80,
       "recoil": 15,
       "description": "Two powerful fists slam forward like a cannon blast, knocking back foes."
     },
     {
-      "name": "Jet Shield",
-      "type": "defense",
-      "power": 40,
-      "description": "Use rapid arm movement to create a shockwave barrier that reduces incoming damage."
-    },
-    {
-      "name": "Pulse Dash",
+      "name": "Jet Pump",
       "type": "buff",
       "buffType": "speed",
       "buffPower": 2.0,
@@ -400,35 +394,35 @@
   ],
   "gear3": [
     {
-      "name": "Giant Pistol",
+      "name": "Gigant Pistol",
       "type": "offense",
-      "power": 120,
+      "power": 75,
       "description": "Deliver a massive enlarged fist strike that crushes anything in its path."
     },
     {
-      "name": "Giant Shield",
+      "name": "Gigant Shield",
       "type": "defense",
       "power": 60,
       "description": "Use an enlarged arm to block incoming attacks and protect allies."
     },
     {
-      "name": "Titan Slam",
+      "name": "Gigant Slam",
       "type": "offense",
-      "power": 110,
+      "power": 80,
       "recoil": 10,
       "description": "Leap high and slam a gigantic limb into the ground, causing a shockwave."
     },
     {
-      "name": "Colossus Guard",
+      "name": "Elephant",
       "type": "buff",
-      "buffType": "defense",
-      "buffPower": 2.2,
+      "buffType": "offense",
+      "buffPower": 2.1,
       "description": "Harden enlarged limbs to drastically increase defense."
     },
     {
-      "name": "Giant Gatling",
+      "name": "Gigant Gatling",
       "type": "offense",
-      "power": 85,
+      "power": 90,
       "description": "Unleash a barrage of enormous punches in rapid succession."
     }
   ],

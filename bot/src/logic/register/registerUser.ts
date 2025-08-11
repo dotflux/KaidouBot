@@ -61,6 +61,10 @@ export const registerUser = async (
     moves: {
       [fightingStyle]: baseMoves,
     },
+    maxHp: race === "human" ? 70 : 50,
+    initialDef: race === "fishman" || race === "cyborg" ? 30 : 0,
+    maxDef: race === "fishman" || race === "cyborg" ? 80 : 50,
+    speed: race === "mink" ? 30 : 10,
   });
   await newUser.save();
 

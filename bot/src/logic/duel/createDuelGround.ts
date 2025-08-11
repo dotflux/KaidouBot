@@ -11,6 +11,7 @@ import { duelActionSelect } from "./dropdowns/duelActionSelect";
 import redisClient from "../../db/redis";
 import { UserModel } from "../../db/models/user";
 import { generateDuelImage } from "./embeds/generateDuelVsImage";
+import { duelLoadingEmbed } from "./embeds/duelLoadingEmbed";
 
 export const createDuelBattleground = async (
   interaction: ButtonInteraction,
@@ -18,6 +19,14 @@ export const createDuelBattleground = async (
   userObjs: { challenger: User; opponent: User }
 ) => {
   await interaction.deferUpdate();
+
+  const loadingEmbed = duelLoadingEmbed();
+
+  await interaction.message.edit({
+    content: "",
+    embeds: [loadingEmbed],
+    components: [],
+  });
 
   const imageBuffer = await generateDuelImage(
     userObjs.challenger.displayAvatarURL(),
@@ -57,15 +66,12 @@ export const createDuelBattleground = async (
     [`${canInteract[0]}:moveUsed`]: "",
     [`${canInteract[1]}:moveUsed`]: "",
 
-    [`${canInteract[0]}:speed`]: 0,
-    [`${canInteract[1]}:speed`]: 0,
-
     [`${canInteract[0]}:buff_offense`]: 0,
     [`${canInteract[1]}:buff_offense`]: 0,
     [`${canInteract[0]}:buff_defense`]: challengerUser.initialDef,
     [`${canInteract[1]}:buff_defense`]: opponentUser.initialDef,
-    [`${canInteract[0]}:buff_speed`]: 0,
-    [`${canInteract[1]}:buff_speed`]: 0,
+    [`${canInteract[0]}:buff_speed`]: challengerUser.speed,
+    [`${canInteract[1]}:buff_speed`]: opponentUser.speed,
     [`${canInteract[0]}:maxDef`]: challengerUser.maxDef,
     [`${canInteract[1]}:maxDef`]: opponentUser.maxDef,
     [`${canInteract[0]}:form`]: "",
@@ -96,7 +102,6 @@ export const createDuelBattleground = async (
   );
 
   await interaction.message.edit({
-    content: "",
     embeds: [embed],
     components: [row],
     files: [attachment],

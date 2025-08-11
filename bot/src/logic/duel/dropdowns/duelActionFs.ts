@@ -229,7 +229,6 @@ export const buildWeaponDropdown = async (userId: string, duelId: string) => {
     .exec();
 
   if (!user) return null;
-  console.log("Users weapon: ", user.equippedWeapon);
 
   const styleKey: string = (user as any).equippedWeapon;
   const fsMoves: MoveData[] =
