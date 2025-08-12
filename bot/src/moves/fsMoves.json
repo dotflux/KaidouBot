@@ -364,6 +364,165 @@
       "description": "Awaken the true power of the fruit, turning the environment into rubber and fighting with cartoon-like freedom."
     }
   ],
+
+  "hie": [
+    {
+      "name": "Ice Age",
+      "type": "offense",
+      "power": 95,
+      "description": "Freeze an area instantly with overwhelming cold — a massive, slow-moving blast."
+    },
+    {
+      "name": "Ice Cutter",
+      "type": "offense",
+      "power": 40,
+      "description": "Launch razor-sharp shards of ice in a quick volley."
+    },
+    {
+      "name": "Frost Wall",
+      "type": "defense",
+      "power": 30,
+      "description": "Summon a thick vertical wall of ice to block incoming attacks."
+    },
+    {
+      "name": "Glacial Lance",
+      "type": "offense",
+      "power": 60,
+      "description": "Form a concentrated spear of ice and drive it through the enemy."
+    },
+    {
+      "name": "Permafrost Aegis",
+      "type": "defense",
+      "power": 50,
+      "description": "Encase yourself in layered ice armor that absorbs heavy damage."
+    },
+    {
+      "name": "Frozen Edge",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.6,
+      "description": "Infuse your strikes with crystalline cold to boost attack power temporarily."
+    },
+    {
+      "name": "Froststep",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.5,
+      "description": "Move across the battlefield on sheets of ice, greatly increasing speed."
+    },
+    {
+      "name": "Absolute Zero Blast",
+      "type": "offense",
+      "power": 85,
+      "description": "Release a concentrated pulse of subzero air that numbs and damages everything in front of you."
+    }
+  ],
+  "gura": [
+    {
+      "name": "Tremor Fist",
+      "type": "offense",
+      "power": 30,
+      "description": "Strike that sends localized tremors through the ground. (Starter)"
+    },
+    {
+      "name": "Tremor Guard",
+      "type": "defense",
+      "power": 25,
+      "description": "Use vibration to disperse and soften incoming hits. (Starter)"
+    },
+    {
+      "name": "Quake Wave",
+      "type": "offense",
+      "power": 70,
+      "description": "Send a wide-ranged shockwave that topples opponents."
+    },
+    {
+      "name": "Ground Shatter",
+      "type": "offense",
+      "power": 95,
+      "recoil": 20,
+      "description": "A cataclysmic stomp that cracks the earth and deals devastating damage at cost to the user."
+    },
+    {
+      "name": "Aftershock Shield",
+      "type": "defense",
+      "power": 60,
+      "description": "Generate persistent vibrations around you that reduce incoming damage."
+    },
+    {
+      "name": "Rumble Charge",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.9,
+      "description": "Channel tectonic force into your strikes, drastically increasing damage."
+    },
+    {
+      "name": "Faultline Slam",
+      "type": "offense",
+      "power": 80,
+      "description": "Open a fissure beneath the enemy, dealing heavy single-target damage."
+    },
+    {
+      "name": "Seismic Bastion",
+      "type": "defense",
+      "power": 50,
+      "description": "Harden your stance with earthquake energy to greatly boost defense for a short time."
+    }
+  ],
+  "kage": [
+    {
+      "name": "Shadow Jab",
+      "type": "offense",
+      "power": 25,
+      "description": "A quick, sneaking strike launched from the shadows. (Starter)"
+    },
+    {
+      "name": "Shade Veil",
+      "type": "defense",
+      "power": 20,
+      "description": "Wrap yourself in shadow to reduce incoming damage and obscure movement. (Starter)"
+    },
+    {
+      "name": "Phantom Strike",
+      "type": "offense",
+      "power": 55,
+      "description": "Converging shadow blades hit from multiple angles in a single assault."
+    },
+    {
+      "name": "Shadow Drain",
+      "type": "lifesteal",
+      "power": 35,
+      "description": "Sink a shadow tendril into the foe to siphon health and restore the user."
+    },
+    {
+      "name": "Eclipse Burst",
+      "type": "offense",
+      "power": 85,
+      "recoil": 15,
+      "description": "Blanket the area in blackness and strike with condensed shadow force, but it strains the user."
+    },
+    {
+      "name": "Umbra Guard",
+      "type": "defense",
+      "power": 40,
+      "description": "Solidify surrounding shadows into a protective barrier."
+    },
+    {
+      "name": "Night Stalker",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.8,
+      "description": "Move like a silhouette through the battlefield, greatly increasing speed and strike timing."
+    },
+    {
+      "name": "Dark Empowerment",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.7,
+      "description": "Draw on concentrated shadow energy to temporarily boost attack potency."
+    }
+  ],
+
   "gear2": [
     {
       "name": "Jet Pistol",
