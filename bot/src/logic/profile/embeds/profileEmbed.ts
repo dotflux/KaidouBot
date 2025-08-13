@@ -21,6 +21,19 @@ const returnNormalNameFs = (fs: string) => {
   }
 };
 
+const returnNormalNameFaction = (faction: string) => {
+  switch (faction) {
+    case "ra":
+      return "Revolutionary Army";
+    case "bh":
+      return "Bounty Hunter";
+    case "pirate":
+      return "Pirate";
+    case "marine":
+      return "Marine";
+  }
+};
+
 export async function makeRoundedAvatarBuffer(
   avatarUrl: string,
   size = 128,
@@ -83,9 +96,9 @@ export const profileEmbed = async (
     .addFields(
       {
         name: "About",
-        value: `${factionEmojis(faction)} ${faction}\n${raceEmojis(
-          race
-        )} ${race}`,
+        value: `${factionEmojis(faction)} ${returnNormalNameFaction(
+          faction
+        )}\n${raceEmojis(race)} ${capitalize(race)}`,
       },
       {
         name: "Fighting Style",

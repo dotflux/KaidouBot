@@ -9,6 +9,7 @@ import { errorEmbed } from "./errorEmbed";
 import { Faction, Race } from "../../types";
 import { UserModel } from "../../db/models/user";
 import fsMoves from "../../moves/fsMoves.json";
+import { InventoryModel } from "../../db/models/inventory";
 
 const setFs = (race: string) => {
   switch (race) {
@@ -66,7 +67,10 @@ export const registerUser = async (
     maxDef: race === "fishman" || race === "cyborg" ? 80 : 50,
     speed: race === "mink" ? 30 : 10,
   });
-  await newUser.save();
+  const newUserInventory = new InventoryModel({
+    userId: interaction.user.id,
+  });
+  await Promise.all([newUser.save(), newUserInventory.save()]);
 
   const embed = finalRegisterEmbed(faction, race);
   await interaction.update({

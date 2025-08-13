@@ -5,6 +5,8 @@ import * as profile from "./commands/profile";
 import * as factionSelect from "./logic/register/dropdowns/factionSelect";
 import * as raceSelect from "./logic/register/dropdowns/raceSelect";
 import * as duel from "./commands/duel";
+import * as cheat from "./commands/cheat";
+import * as inventory from "./commands/inventory";
 import * as acceptDuelButton from "./logic/duel/buttons/acceptDuelButton";
 import * as rejectDuelButton from "./logic/duel/buttons/rejectDuelButton";
 import * as duelActionSelect from "./logic/duel/dropdowns/duelActionCallback";
@@ -18,6 +20,9 @@ export async function handleInteraction(interaction: Interaction) {
     if (interaction.commandName === "profile")
       return profile.execute(interaction);
     if (interaction.commandName === "duel") return duel.execute(interaction);
+    if (interaction.commandName === "cheat") return cheat.execute(interaction);
+    if (interaction.commandName === "inventory")
+      return inventory.execute(interaction);
   }
   if (interaction.isStringSelectMenu()) {
     if (interaction.customId.startsWith("factionSelect_"))
