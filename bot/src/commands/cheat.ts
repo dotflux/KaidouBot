@@ -6,6 +6,7 @@ import {
 import * as dotenv from "dotenv";
 import { itemCheat } from "../logic/cheat/itemCheat";
 import { RARITIES, Rarity } from "../types";
+import { StatCheat, CHEATSTATS, statCheat } from "../logic/cheat/statCheat";
 dotenv.config();
 
 export const data = new SlashCommandBuilder()
@@ -40,6 +41,24 @@ export const data = new SlashCommandBuilder()
           .setDescription("Quantity to add or remove")
           .setRequired(true)
       )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand
+      .setName("stat")
+      .setDescription("Modify your stats")
+      .addStringOption((option) =>
+        option
+          .setName("stat")
+          .setDescription("Type of the stat")
+          .setRequired(true)
+          .addChoices(...CHEATSTATS.map((s) => ({ name: s, value: s })))
+      )
+      .addNumberOption((option) =>
+        option
+          .setName("amount")
+          .setDescription("Amount to set")
+          .setRequired(true)
+      )
   );
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
@@ -59,6 +78,12 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
     const rarityRaw = interaction.options.getString("rarity", true);
     const rarity = rarityRaw as Rarity;
     await itemCheat(interaction, type, name, rarity, quantity);
+  }
+  if (subcommand === "stat") {
+    const statRaw = interaction.options.getString("stat", true);
+    const amount = interaction.options.getNumber("amount", true);
+    const stat = statRaw as StatCheat;
+    await statCheat(interaction, stat, amount);
   } else {
     await interaction.reply({
       content: "Unknown cheat command.",

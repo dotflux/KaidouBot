@@ -1,13 +1,14 @@
 import { ChatInputCommandInteraction, MessageFlags } from "discord.js";
 import { UserModel } from "../../db/models/user";
-import { InventoryModel, addItemToInventory } from "../../db/models/inventory";
+import { errorEmbed } from "../register/errorEmbed";
 
-export const itemCheat = async (
+export type StatCheat = "maxDef" | "initialDef" | "speed" | "maxHp";
+export const CHEATSTATS = ["maxDef", "initialDef", "speed", "maxHp"];
+
+export const statCheat = async (
   interaction: ChatInputCommandInteraction,
-  type: string,
-  name: string,
-  rarity: "common" | "rare" | "epic" | "legendary",
-  quantity: number
+  stat: StatCheat,
+  newAmount: number
 ) => {
   try {
     const user = await UserModel.findOne({ userId: interaction.user.id });
@@ -18,27 +19,21 @@ export const itemCheat = async (
       });
       return;
     }
-    const inventory = await InventoryModel.findOne({
-      userId: interaction.user.id,
-    });
-    if (!inventory) {
+    if (!CHEATSTATS.includes(stat)) {
+      const error = errorEmbed("Invalid stat mentioned");
       await interaction.reply({
-        content: "Inventory not in database",
+        embeds: [error],
         flags: MessageFlags.Ephemeral,
       });
       return;
     }
-
-    const newQty = await addItemToInventory(
-      interaction.user.id,
-      type,
-      name,
-      rarity,
-      quantity
+    await UserModel.updateOne(
+      { userId: interaction.user.id },
+      { $set: { [stat]: newAmount } }
     );
 
     await interaction.reply({
-      content: `Added ${quantity} × ${name} (rarity: ${rarity}). New quantity: ${newQty}`,
+      content: `Changed your ${stat} to ${newAmount}`,
       flags: MessageFlags.Ephemeral,
     });
   } catch (error) {
