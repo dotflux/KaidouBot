@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { humanize } from "../../logic/emojis/capitalize";
 
 const inventoryItemInnerSchema = new mongoose.Schema(
   {
@@ -57,7 +58,7 @@ export async function addItemToInventory(
     {
       $set: {
         [`${basePath}.rarity`]: rarity,
-        [`${basePath}.data.displayName`]: name,
+        [`${basePath}.data.displayName`]: humanize(name),
       },
       $inc: { [`${basePath}.quantity`]: quantity },
     },

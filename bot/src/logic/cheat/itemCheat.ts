@@ -2,6 +2,8 @@ import { ChatInputCommandInteraction, MessageFlags } from "discord.js";
 import { UserModel } from "../../db/models/user";
 import { InventoryModel, addItemToInventory } from "../../db/models/inventory";
 
+export const ITEM_TYPES = ["devilFruit", "chest", "swords", "guns"];
+
 export const itemCheat = async (
   interaction: ChatInputCommandInteraction,
   type: string,

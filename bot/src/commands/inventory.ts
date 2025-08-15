@@ -3,6 +3,7 @@ import {
   ChatInputCommandInteraction,
   MessageFlags,
 } from "discord.js";
+import { inventoryFetch } from "../logic/inventory/inventoryFetch";
 
 export const data = new SlashCommandBuilder()
   .setName("inventory")
@@ -25,31 +26,19 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 
   switch (subcommand) {
     case "fruits":
-      await interaction.reply({
-        content: "Here are your fruits...",
-        flags: MessageFlags.Ephemeral,
-      });
+      await inventoryFetch(interaction, "devilFruit");
       break;
 
     case "chests":
-      await interaction.reply({
-        content: "Here are your chests...",
-        flags: MessageFlags.Ephemeral,
-      });
+      await inventoryFetch(interaction, "chest");
       break;
 
     case "swords":
-      await interaction.reply({
-        content: "Here are your swords...",
-        flags: MessageFlags.Ephemeral,
-      });
+      await inventoryFetch(interaction, "swords");
       break;
 
     case "guns":
-      await interaction.reply({
-        content: "Here are your guns...",
-        flags: MessageFlags.Ephemeral,
-      });
+      await inventoryFetch(interaction, "guns");
       break;
 
     default:

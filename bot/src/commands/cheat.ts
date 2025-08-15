@@ -4,7 +4,7 @@ import {
   MessageFlags,
 } from "discord.js";
 import * as dotenv from "dotenv";
-import { itemCheat } from "../logic/cheat/itemCheat";
+import { itemCheat, ITEM_TYPES } from "../logic/cheat/itemCheat";
 import { RARITIES, Rarity } from "../types";
 import { StatCheat, CHEATSTATS, statCheat } from "../logic/cheat/statCheat";
 dotenv.config();
@@ -21,6 +21,7 @@ export const data = new SlashCommandBuilder()
           .setName("type")
           .setDescription("Type of the item (e.g., fruit, chest)")
           .setRequired(true)
+          .addChoices(...ITEM_TYPES.map((t) => ({ name: t, value: t })))
       )
       .addStringOption((option) =>
         option
@@ -62,32 +63,38 @@ export const data = new SlashCommandBuilder()
   );
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
-  const subcommand = interaction.options.getSubcommand();
-  if (interaction.user.id !== process.env.DEV_ID) {
-    await interaction.reply({
-      content: `You're not a developer`,
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
-  }
+  try {
+    const subcommand = interaction.options.getSubcommand();
+    if (interaction.user.id !== process.env.DEV_ID) {
+      await interaction.reply({
+        content: `You're not a developer`,
+        flags: MessageFlags.Ephemeral,
+      });
+      return;
+    }
 
-  if (subcommand === "item") {
-    const type = interaction.options.getString("type", true);
-    const name = interaction.options.getString("name", true);
-    const quantity = interaction.options.getNumber("quantity", true);
-    const rarityRaw = interaction.options.getString("rarity", true);
-    const rarity = rarityRaw as Rarity;
-    await itemCheat(interaction, type, name, rarity, quantity);
-  }
-  if (subcommand === "stat") {
-    const statRaw = interaction.options.getString("stat", true);
-    const amount = interaction.options.getNumber("amount", true);
-    const stat = statRaw as StatCheat;
-    await statCheat(interaction, stat, amount);
-  } else {
-    await interaction.reply({
-      content: "Unknown cheat command.",
-      flags: MessageFlags.Ephemeral,
-    });
+    switch (subcommand) {
+      case "item":
+        const type = interaction.options.getString("type", true);
+        const name = interaction.options.getString("name", true);
+        const quantity = interaction.options.getNumber("quantity", true);
+        const rarityRaw = interaction.options.getString("rarity", true);
+        const rarity = rarityRaw as Rarity;
+        await itemCheat(interaction, type, name, rarity, quantity);
+        break;
+      case "stat":
+        const statRaw = interaction.options.getString("stat", true);
+        const amount = interaction.options.getNumber("amount", true);
+        const stat = statRaw as StatCheat;
+        await statCheat(interaction, stat, amount);
+        break;
+      default:
+        await interaction.reply({
+          content: "Unknown cheat command.",
+          flags: MessageFlags.Ephemeral,
+        });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
