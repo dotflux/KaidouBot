@@ -2,12 +2,8 @@ import { ChatInputCommandInteraction, MessageFlags } from "discord.js";
 import { UserModel } from "../../db/models/user";
 import { errorEmbed } from "../register/errorEmbed";
 
-export type StatCheat = "maxDef" | "initialDef" | "speed" | "maxHp";
-export const CHEATSTATS = ["maxDef", "initialDef", "speed", "maxHp"];
-
-export const statCheat = async (
+export const moneyCheat = async (
   interaction: ChatInputCommandInteraction,
-  stat: StatCheat,
   newAmount: number
 ) => {
   try {
@@ -20,21 +16,15 @@ export const statCheat = async (
       });
       return;
     }
-    if (!CHEATSTATS.includes(stat)) {
-      const error = errorEmbed("Invalid stat mentioned");
-      await interaction.reply({
-        embeds: [error],
-        flags: MessageFlags.Ephemeral,
-      });
-      return;
+    if (newAmount < 0) {
     }
     await UserModel.updateOne(
       { userId: interaction.user.id },
-      { $set: { [stat]: newAmount } }
+      { $inc: { money: newAmount } }
     );
 
     await interaction.reply({
-      content: `Changed your ${stat} to ${newAmount}`,
+      content: `Increased your money by ${newAmount}`,
       flags: MessageFlags.Ephemeral,
     });
   } catch (error) {

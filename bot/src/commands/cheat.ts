@@ -7,6 +7,7 @@ import * as dotenv from "dotenv";
 import { itemCheat, ITEM_TYPES } from "../logic/cheat/itemCheat";
 import { RARITIES, Rarity } from "../types";
 import { StatCheat, CHEATSTATS, statCheat } from "../logic/cheat/statCheat";
+import { moneyCheat } from "../logic/cheat/moneyCheat";
 dotenv.config();
 
 export const data = new SlashCommandBuilder()
@@ -60,6 +61,17 @@ export const data = new SlashCommandBuilder()
           .setDescription("Amount to set")
           .setRequired(true)
       )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand
+      .setName("money")
+      .setDescription("Increase your money")
+      .addNumberOption((option) =>
+        option
+          .setName("amount")
+          .setDescription("Amount to set")
+          .setRequired(true)
+      )
   );
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
@@ -84,10 +96,15 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
         break;
       case "stat":
         const statRaw = interaction.options.getString("stat", true);
-        const amount = interaction.options.getNumber("amount", true);
+        const amountStat = interaction.options.getNumber("amount", true);
         const stat = statRaw as StatCheat;
-        await statCheat(interaction, stat, amount);
+        await statCheat(interaction, stat, amountStat);
         break;
+      case "money":
+        const amountMoney = interaction.options.getNumber("amount", true);
+        await moneyCheat(interaction, amountMoney);
+        break;
+
       default:
         await interaction.reply({
           content: "Unknown cheat command.",

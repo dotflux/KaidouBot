@@ -5,10 +5,11 @@ import { profileEmbed } from "./embeds/profileEmbed";
 
 export const sendProfile = async (interaction: ChatInputCommandInteraction) => {
   try {
+    await interaction.deferReply();
     const user = await UserModel.findOne({ userId: interaction.user.id });
     if (!user) {
       const error = errorEmbed("User not found!");
-      await interaction.reply({ embeds: [error] });
+      await interaction.editReply({ embeds: [error] });
       return;
     }
     const { embed, attachment } = await profileEmbed(
@@ -26,7 +27,7 @@ export const sendProfile = async (interaction: ChatInputCommandInteraction) => {
       { duelsWon: user.duelsWon, duelsLost: user.duelsLost }
     );
 
-    await interaction.reply({ embeds: [embed], files: [attachment] });
+    await interaction.editReply({ embeds: [embed], files: [attachment] });
   } catch (error) {
     console.log(error);
   }
