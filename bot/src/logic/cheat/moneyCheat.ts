@@ -17,6 +17,12 @@ export const moneyCheat = async (
       return;
     }
     if (newAmount < 0) {
+      const error = errorEmbed("Increment amount must be in positive");
+      await interaction.reply({
+        embeds: [error],
+        flags: MessageFlags.Ephemeral,
+      });
+      return;
     }
     await UserModel.updateOne(
       { userId: interaction.user.id },

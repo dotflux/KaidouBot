@@ -8,6 +8,8 @@ import { itemCheat, ITEM_TYPES } from "../logic/cheat/itemCheat";
 import { RARITIES, Rarity } from "../types";
 import { StatCheat, CHEATSTATS, statCheat } from "../logic/cheat/statCheat";
 import { moneyCheat } from "../logic/cheat/moneyCheat";
+import { moveCheat } from "../logic/cheat/moveCheat";
+
 dotenv.config();
 
 export const data = new SlashCommandBuilder()
@@ -72,12 +74,30 @@ export const data = new SlashCommandBuilder()
           .setDescription("Amount to set")
           .setRequired(true)
       )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand
+      .setName("move")
+      .setDescription("Add a move to your profile")
+      .addStringOption((option) =>
+        option
+          .setName("style")
+          .setDescription("Style/Df/Whatever name")
+          .setRequired(true)
+      )
+      .addStringOption((option) =>
+        option
+          .setName("name")
+          .setDescription("Name of the move")
+          .setRequired(true)
+      )
   );
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
   try {
     const subcommand = interaction.options.getSubcommand();
-    if (interaction.user.id !== process.env.DEV_ID) {
+    const devIds = process.env.DEV_ID?.split(",") ?? [];
+    if (!devIds.includes(interaction.user.id)) {
       await interaction.reply({
         content: `You're not a developer`,
         flags: MessageFlags.Ephemeral,
@@ -103,6 +123,11 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
       case "money":
         const amountMoney = interaction.options.getNumber("amount", true);
         await moneyCheat(interaction, amountMoney);
+        break;
+      case "move":
+        const moveStyle = interaction.options.getString("style", true);
+        const moveName = interaction.options.getString("name", true);
+        await moveCheat(interaction, moveStyle, moveName);
         break;
 
       default:
