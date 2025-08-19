@@ -14,6 +14,8 @@ const moveSchema = new mongoose.Schema(
     buffType: { type: String },
     buffPower: { type: Number },
     form: { type: String },
+    formBuffType: { type: String },
+    formBuff: { type: Number },
     description: { type: String },
   },
   { _id: false }

@@ -337,30 +337,40 @@
       "name": "Gear Second",
       "type": "transformation",
       "form": "gear2",
+      "formBuffType": "speed",
+      "formBuff": 2.0,
       "description": "Pump blood rapidly to enhance speed and strength, giving a temporary battle boost."
     },
     {
       "name": "Gear Third",
       "type": "transformation",
       "form": "gear3",
+      "formBuffType": "offense",
+      "formBuff": 2.0,
       "description": "Inflate your bones to deliver massive blows with gigantic limbs."
     },
     {
       "name": "Gear Fourth: Boundman",
       "type": "transformation",
       "form": "boundman",
+      "formBuffType": "defense",
+      "formBuff": 3.0,
       "description": "Enhance elasticity and muscle compression for explosive power and speed."
     },
     {
       "name": "Gear Fourth: Snakeman",
       "type": "transformation",
       "form": "snakeman",
+      "formBuffType": "speed",
+      "formBuff": 3.0,
       "description": "Increase attack speed and unpredictability, perfect for overwhelming opponents."
     },
     {
       "name": "Gear Fifth",
       "type": "transformation",
       "form": "gear5",
+      "formBuffType": "hp",
+      "formBuff": 200,
       "description": "Awaken the true power of the fruit, turning the environment into rubber and fighting with cartoon-like freedom."
     }
   ],
@@ -583,6 +593,131 @@
       "type": "offense",
       "power": 90,
       "description": "Unleash a barrage of enormous punches in rapid succession."
+    }
+  ],
+  "boundman": [
+    {
+      "name": "Kong Gun",
+      "type": "offense",
+      "power": 120,
+      "recoil": 25,
+      "description": "A compressed, Haki-infused rocket punch."
+    },
+    {
+      "name": "Leo Bazooka",
+      "type": "offense",
+      "power": 95,
+      "description": "A brutal burst of compressed muscle/headbutt-like impact."
+    },
+    {
+      "name": "Rhino Schneider",
+      "type": "offense",
+      "power": 90,
+      "description": "A shoulder/hip-driven charging strike,"
+    },
+    {
+      "name": "Compressed Shell",
+      "type": "defense",
+      "power": 60,
+      "description": "Harden and compress your body to greatly reduce damage."
+    },
+    {
+      "name": "Titan Compression",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 2.0,
+      "description": "Channel compression & Haki to massively boost attack."
+    },
+    {
+      "name": "Bounce Step",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.6,
+      "description": "Use Boundman's springy, compressed movement."
+    }
+  ],
+
+  "snakeman": [
+    {
+      "name": "King Cobra",
+      "type": "offense",
+      "power": 110,
+      "recoil": 70,
+      "description": "A flurry of whip-like punches that change direction mid-flight."
+    },
+    {
+      "name": "Black Mamba",
+      "type": "offense",
+      "power": 130,
+      "recoil": 80,
+      "description": "Extreme-speed straight and twisting strikes,"
+    },
+    {
+      "name": "Python Fang",
+      "type": "offense",
+      "power": 85,
+      "description": "A series of snapping, curved strikes."
+    },
+    {
+      "name": "Slither Guard",
+      "type": "defense",
+      "power": 40,
+      "description": "Flow like a snake to minimize damage.."
+    },
+    {
+      "name": "Serpent Surge",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 2.2,
+      "description": "Sharpen reflexes and launch with unpredictable motion."
+    },
+    {
+      "name": "Coiling Strike",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.5,
+      "description": "Concentrate twisting power into the next blow."
+    }
+  ],
+
+  "gear5": [
+    {
+      "name": "Drums of Liberation",
+      "type": "heal",
+      "power": 100,
+      "description": "Beat the awakening drums to restore vitality."
+    },
+    {
+      "name": "Bajrang Gun",
+      "type": "offense",
+      "power": 200,
+      "recoil": 100,
+      "description": "A colossal, Haki-infused punch size of an island."
+    },
+    {
+      "name": "Kaminari",
+      "type": "offense",
+      "power": 100,
+      "description": "A blinding, electrified flurry of rubber."
+    },
+    {
+      "name": "Gigant",
+      "type": "defense",
+      "power": 100,
+      "description": "Enlarge and harden limbs into an enormous shield"
+    },
+    {
+      "name": "Sunlit Siphon",
+      "type": "lifesteal",
+      "power": 80,
+      "description": "A radiant, rubbery embrace that rips vitality from the foe"
+    },
+    {
+      "name": "Liberation",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 2.5,
+      "description": "Channel Gear 5's freedom to massively amplify attack."
     }
   ],
 

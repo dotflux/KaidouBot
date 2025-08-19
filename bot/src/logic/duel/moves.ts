@@ -13,6 +13,7 @@ export type PlayerState = {
   maxHp: number;
   maxDef: number;
   form: string;
+  resistance: number;
 };
 
 export type BuffType = "offense" | "speed";
@@ -33,5 +34,7 @@ export interface MoveData {
   buffPower?: number;
   recoil?: number;
   form?: string;
+  formBuffType?: string;
+  formBuff?: number;
   description?: string;
 }

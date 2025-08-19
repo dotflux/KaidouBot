@@ -59,6 +59,8 @@ export const processMoves = async (
     `${opponentId}:maxHp`,
     `${challengerId}:form`,
     `${opponentId}:form`,
+    `${challengerId}:resistance`,
+    `${opponentId}:resistance`,
   ];
 
   const [
@@ -81,6 +83,8 @@ export const processMoves = async (
     oHpMax,
     cForm,
     oForm,
+    cResistanceRaw,
+    oResistanceRaw,
   ] = await redisClient.hmGet(`duel:${duelId}`, keys);
 
   const [challengerUser, opponentUser] = await Promise.all([
@@ -105,6 +109,7 @@ export const processMoves = async (
     debuffs: JSON.parse(cDebuffsRaw || "{}"),
     maxDef: Number(cDefMax),
     form: cForm || "",
+    resistance: Number(cResistanceRaw),
   };
 
   const oState: PlayerState = {
@@ -122,6 +127,7 @@ export const processMoves = async (
     debuffs: JSON.parse(oDebuffsRaw || "{}"),
     maxDef: Number(oDefMax),
     form: oForm || "",
+    resistance: Number(oResistanceRaw),
   };
 
   const lookup = (name: string): MoveData => {
@@ -135,12 +141,14 @@ export const processMoves = async (
 
   const applyDelta = (target: PlayerState, delta?: Partial<PlayerState>) => {
     if (!delta) return;
+    if (delta.maxHp !== undefined) target.maxHp = delta.maxHp;
     if (delta.hp !== undefined) target.hp += delta.hp;
     if (delta.buff_defense !== undefined)
       target.buff_defense = delta.buff_defense;
     if (delta.buff_offense !== undefined)
       target.buff_offense = delta.buff_offense;
     if (delta.buff_speed !== undefined) target.buff_speed = delta.buff_speed;
+    if (delta.resistance !== undefined) target.resistance = delta.resistance;
     if ((delta as any).form !== undefined)
       (target as any).form = (delta as any).form;
   };
@@ -156,6 +164,7 @@ export const processMoves = async (
     turn += 1;
     await redisClient.hSet(`duel:${duelId}`, {
       [`${challengerId}:hp`]: Math.max(0, cState.hp),
+      [`${challengerId}:maxHp`]: cState.maxHp,
       [`${challengerId}:buff_defense`]: cState.buff_defense,
       [`${challengerId}:buff_offense`]: cState.buff_offense,
       [`${challengerId}:buff_speed`]: cState.buff_speed,
@@ -163,6 +172,7 @@ export const processMoves = async (
       [`${challengerId}:buffs`]: JSON.stringify(cState.buffs),
       [`${challengerId}:debuffs`]: JSON.stringify(cState.debuffs),
       [`${opponentId}:hp`]: Math.max(0, oState.hp),
+      [`${opponentId}:maxHp`]: oState.maxHp,
       [`${opponentId}:buff_defense`]: oState.buff_defense,
       [`${opponentId}:buff_offense`]: oState.buff_offense,
       [`${opponentId}:buff_speed`]: oState.buff_speed,
@@ -172,6 +182,10 @@ export const processMoves = async (
       currentTurn: turn,
       [`${challengerId}:moveUsed`]: "",
       [`${opponentId}:moveUsed`]: "",
+      [`${challengerId}:moveUsed`]: "",
+      [`${opponentId}:moveUsed`]: "",
+      [`${challengerId}:resistance`]: cState.resistance,
+      [`${opponentId}:resistance`]: oState.resistance,
     });
     await redisClient.del(`duel:${duelId}`);
     await DuelModel.deleteOne({ users: { $all: [challengerId, opponentId] } });
@@ -253,6 +267,7 @@ export const processMoves = async (
   turn += 1;
   await redisClient.hSet(`duel:${duelId}`, {
     [`${challengerId}:hp`]: Math.max(0, cState.hp),
+    [`${challengerId}:maxHp`]: cState.maxHp,
     [`${challengerId}:buff_defense`]: cState.buff_defense,
     [`${challengerId}:buff_offense`]: cState.buff_offense,
     [`${challengerId}:buff_speed`]: cState.buff_speed,
@@ -260,6 +275,7 @@ export const processMoves = async (
     [`${challengerId}:buffs`]: JSON.stringify(cState.buffs),
     [`${challengerId}:debuffs`]: JSON.stringify(cState.debuffs),
     [`${opponentId}:hp`]: Math.max(0, oState.hp),
+    [`${opponentId}:maxHp`]: oState.maxHp,
     [`${opponentId}:buff_defense`]: oState.buff_defense,
     [`${opponentId}:buff_offense`]: oState.buff_offense,
     [`${opponentId}:buff_speed`]: oState.buff_speed,
@@ -269,6 +285,8 @@ export const processMoves = async (
     currentTurn: turn,
     [`${challengerId}:moveUsed`]: "",
     [`${opponentId}:moveUsed`]: "",
+    [`${challengerId}:resistance`]: cState.resistance,
+    [`${opponentId}:resistance`]: oState.resistance,
   });
 
   const deadC = cState.hp <= 0;
