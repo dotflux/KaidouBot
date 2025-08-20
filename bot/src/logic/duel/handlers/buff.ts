@@ -29,6 +29,13 @@ export function handleBuff(
       opponentDelta: {},
       message: `⚡ **${user.username}** increases offense by +${baselineAdd} (total buff_offense: ${newOff})`,
     };
+  } else if(bType === "defense"){
+    const newResistance = user.resistance + bPower;
+     return {
+      userDelta: { resistance: newResistance },
+      opponentDelta: {},
+      message: `🛡 **${user.username}** increases resistance (x${bPower}) -> ${newResistance}`,
+    };
   }
 
   // fallback (no-op)

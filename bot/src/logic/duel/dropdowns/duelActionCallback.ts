@@ -174,6 +174,27 @@ export const execute = async (interaction: StringSelectMenuInteraction) => {
       await DuelModel.deleteOne({
         users: { $all: [challenger, opponent] },
       });
+      if (interaction.user.id === challenger) {
+        console.log("challenger forfeited")
+        await UserModel.updateOne(
+          { userId: opponent },
+          { $inc: { duelsWon: 1 } }
+        );
+        await UserModel.updateOne(
+          { userId: challenger },
+          { $inc: { duelsLost: 1 } }
+        );
+      } else if (interaction.user.id === opponent) {
+        await UserModel.updateOne(
+          { userId: challenger },
+          { $inc: { duelsWon: 1 } }
+        );
+        await UserModel.updateOne(
+          { userId: opponent },
+          { $inc: { duelsLost: 1 } }
+        );
+      }
+
       await interaction.update({
         content: `${interaction.user.username} forfeited from the battle ${otherUser.username} won the battle`,
         embeds: [],
