@@ -16,7 +16,7 @@ export type PlayerState = {
   resistance: number;
 };
 
-export type BuffType = "offense" | "speed";
+export type BuffType = "offense" | "speed" | "defense";
 
 export type MoveType =
   | "offense"

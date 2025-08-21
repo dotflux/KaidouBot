@@ -532,6 +532,222 @@
       "description": "Draw on concentrated shadow energy to temporarily boost attack potency."
     }
   ],
+  "ope": [
+    {
+      "name": "Scalpel Jab",
+      "type": "offense",
+      "power": 40,
+      "description": "A precise surgical strike using Room's edge. (Starter)"
+    },
+    {
+      "name": "Aura Guard",
+      "type": "defense",
+      "power": 40,
+      "description": "Create a surgical barrier that reduces incoming damage. (Starter)"
+    },
+    {
+      "name": "Spatial Rend",
+      "type": "offense",
+      "power": 55,
+      "description": "Slice space inside the Room to deliver a sudden cut."
+    },
+    {
+      "name": "Shambles",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.6,
+      "description": "Rearrange positions to gain a burst of mobility for a short time."
+    },
+    {
+      "name": "Counter Suture",
+      "type": "lifesteal",
+      "power": 70,
+      "description": "Strike and draw a portion of the foe's life to mend your wounds."
+    },
+    {
+      "name": "Operation Mend",
+      "type": "heal",
+      "power": 45,
+      "description": "Perform a controlled surgical heal to restore a substantial amount of HP."
+    },
+    {
+      "name": "Dissecting Field",
+      "type": "offense",
+      "power": 75,
+      "recoil": 20,
+      "description": "Open many micro-cuts across the enemy — powerful but tiring."
+    },
+    {
+      "name": "Miracle Boost",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.8,
+      "description": "Temporarily augment attack potency with surgical precision."
+    }
+  ],
+
+  "magu": [
+    {
+      "name": "Seared Jab",
+      "type": "offense",
+      "power": 45,
+      "description": "A molten punch that scars armor and flesh. (Starter)"
+    },
+    {
+      "name": "Lava Shell",
+      "type": "defense",
+      "power": 25,
+      "description": "Harden a magma coating that soaks up incoming blows. (Starter)"
+    },
+    {
+      "name": "Magma Fist",
+      "type": "offense",
+      "power": 60,
+      "description": "Deliver explosive molten strikes to burn through defenses."
+    },
+    {
+      "name": "Volcanic Surge",
+      "type": "offense",
+      "power": 90,
+      "recoil": 25,
+      "description": "Erupt the ground beneath foes — devastating but punishing to user."
+    },
+    {
+      "name": "Pyroclast Guard",
+      "type": "defense",
+      "power": 45,
+      "description": "Form a molten barrier that reduces heavy hits."
+    },
+    {
+      "name": "Magma Flow",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.7,
+      "description": "Channel magma power through strikes to increase damage."
+    },
+    {
+      "name": "Seared Grasp",
+      "type": "lifesteal",
+      "power": 38,
+      "description": "Clutch the enemy with molten hands and siphon warmth as life."
+    },
+    {
+      "name": "Eternal Embers",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.4,
+      "description": "Heat your muscles to act faster for a short window."
+    }
+  ],
+
+  "rumble": [
+    {
+      "name": "Spark Tap",
+      "type": "offense",
+      "power": 20,
+      "description": "A quick electric jab. (Starter)"
+    },
+    {
+      "name": "Static Cage",
+      "type": "defense",
+      "power": 20,
+      "description": "Surround yourself with static to dampen incoming hits. (Starter)"
+    },
+    {
+      "name": "Thunderbolt",
+      "type": "offense",
+      "power": 55,
+      "description": "Call down a focused bolt of lightning to strike a target."
+    },
+    {
+      "name": "Electro Drain",
+      "type": "lifesteal",
+      "power": 30,
+      "description": "Drain electrical essence from the foe to recover health."
+    },
+    {
+      "name": "Lightning Dash",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 2.5,
+      "description": "Move as a streak of lightning to close gaps and evade."
+    },
+    {
+      "name": "Chain Shock",
+      "type": "offense",
+      "power": 75,
+      "recoil": 15,
+      "description": "Unleash chained arcs that hit multiple targets but strain you."
+    },
+    {
+      "name": "Thunder God",
+      "type": "transformation",
+      "form": "thundergod",
+      "formBuffType": "defense",
+      "formBuff": 2.0,
+      "description": "Transform into a living storm, vastly bolstering defenses."
+    },
+    {
+      "name": "Ion Field",
+      "type": "defense",
+      "power": 40,
+      "description": "Generate an ionic barrier that reduces damage taken."
+    }
+  ],
+
+  "thundergod": [
+    {
+      "name": "Thunder Strike",
+      "type": "offense",
+      "power": 95,
+      "description": "Concentrated godly lightning that shatters defenses."
+    },
+    {
+      "name": "Thunder Drums",
+      "type": "offense",
+      "power": 110,
+      "recoil": 25,
+      "description": "A colossal thunder roar that ripples with raw power."
+    },
+    {
+      "name": "Storm Aegis",
+      "type": "defense",
+      "power": 80,
+      "description": "Summon a divine lightning shield that soaks tremendous damage."
+    },
+    {
+      "name": "Heavenly Electrocution",
+      "type": "lifesteal",
+      "power": 60,
+      "description": "Strike with heavenly currents that siphon a large portion of life."
+    },
+    {
+      "name": "Divine Surge",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 2.2,
+      "description": "Channel divine storm energy to massively increase attack power."
+    },
+    {
+      "name": "Skyfall Cataclysm",
+      "type": "offense",
+      "power": 130,
+      "recoil": 40,
+      "description": "Summon a cataclysmic thunderfall — near-unstoppable but punishing."
+    },
+    {
+      "name": "Thunder Mend",
+      "type": "heal",
+      "power": 55,
+      "description": "Use restorative storm energy to recover a large amount of HP."
+    },
+    {
+      "name": "Divine Parry",
+      "type": "defense",
+      "power": 65,
+      "description": "Parry with godly lightning, greatly reducing the next incoming strike."
+    }
+  ],
 
   "gear2": [
     {
