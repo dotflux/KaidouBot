@@ -9,6 +9,7 @@ import { RARITIES, Rarity } from "../types";
 import { StatCheat, CHEATSTATS, statCheat } from "../logic/cheat/statCheat";
 import { moneyCheat } from "../logic/cheat/moneyCheat";
 import { moveCheat } from "../logic/cheat/moveCheat";
+import { gemCheat } from "../logic/cheat/gemCheat";
 
 dotenv.config();
 
@@ -77,6 +78,17 @@ export const data = new SlashCommandBuilder()
   )
   .addSubcommand((subcommand) =>
     subcommand
+      .setName("gems")
+      .setDescription("Increase your gems")
+      .addNumberOption((option) =>
+        option
+          .setName("amount")
+          .setDescription("Amount to set")
+          .setRequired(true)
+      )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand
       .setName("move")
       .setDescription("Add a move to your profile")
       .addStringOption((option) =>
@@ -123,6 +135,10 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
       case "money":
         const amountMoney = interaction.options.getNumber("amount", true);
         await moneyCheat(interaction, amountMoney);
+        break;
+      case "gems":
+        const amountGem = interaction.options.getNumber("amount", true);
+        await gemCheat(interaction, amountGem);
         break;
       case "move":
         const moveStyle = interaction.options.getString("style", true);
