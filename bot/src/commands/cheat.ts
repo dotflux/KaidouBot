@@ -10,6 +10,7 @@ import { StatCheat, CHEATSTATS, statCheat } from "../logic/cheat/statCheat";
 import { moneyCheat } from "../logic/cheat/moneyCheat";
 import { moveCheat } from "../logic/cheat/moveCheat";
 import { gemCheat } from "../logic/cheat/gemCheat";
+import { errorEmbed } from "../logic/register/errorEmbed";
 
 dotenv.config();
 
@@ -147,10 +148,12 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
         break;
 
       default:
+        const error = errorEmbed("Unknown cheat command");
         await interaction.reply({
-          content: "Unknown cheat command.",
+          embeds: [error],
           flags: MessageFlags.Ephemeral,
         });
+        break;
     }
   } catch (error) {
     console.log(error);

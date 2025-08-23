@@ -6,6 +6,7 @@ import * as dotenv from "dotenv";
 import * as duel from "./commands/duel";
 import * as inventory from "./commands/inventory";
 import * as cheat from "./commands/cheat";
+import * as equip from "./commands/equip";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ const commands = [
   duel.data,
   inventory.data,
   cheat.data,
+  equip.data,
 ];
 
 export async function registerAllCommands(client: Client) {

@@ -6,6 +6,7 @@ import * as factionSelect from "./logic/register/dropdowns/factionSelect";
 import * as raceSelect from "./logic/register/dropdowns/raceSelect";
 import * as duel from "./commands/duel";
 import * as cheat from "./commands/cheat";
+import * as equip from "./commands/equip";
 import * as inventory from "./commands/inventory";
 import * as acceptDuelButton from "./logic/duel/buttons/acceptDuelButton";
 import * as rejectDuelButton from "./logic/duel/buttons/rejectDuelButton";
@@ -23,6 +24,7 @@ export async function handleInteraction(interaction: Interaction) {
     if (interaction.commandName === "cheat") return cheat.execute(interaction);
     if (interaction.commandName === "inventory")
       return inventory.execute(interaction);
+    if (interaction.commandName === "equip") return equip.execute(interaction);
   }
   if (interaction.isStringSelectMenu()) {
     if (interaction.customId.startsWith("factionSelect_"))
