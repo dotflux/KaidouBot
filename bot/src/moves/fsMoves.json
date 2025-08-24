@@ -995,5 +995,50 @@
       "recoil": 50,
       "description": "Send a sweeping wave of supreme haki."
     }
+  ],
+
+  "starkk_guns": [
+    {
+      "name": "Garganta Redirect",
+      "type": "defense",
+      "power": 60,
+      "description": "Open a dimensional throat that redirects incoming force away."
+    },
+    {
+      "name": "Starkk Volley",
+      "type": "offense",
+      "power": 85,
+      "recoil": 15,
+      "description": "Concentrated barrage of rounds — heavy damage with recoil."
+    },
+    {
+      "name": "Soul Leech Rounds",
+      "type": "lifesteal",
+      "power": 45,
+      "description": "Special rounds siphon a portion of hit foes' vitality."
+    }
+  ],
+
+  "gero_gero_gun": [
+    {
+      "name": "Sonic Burst",
+      "type": "offense",
+      "power": 70,
+      "recoil": 10,
+      "description": "Compressed sonic projectile that blasts targets."
+    },
+    {
+      "name": "Gero Crescendo",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 2.4,
+      "description": "Amplify your strikes with harmonic resonance for massive damage."
+    },
+    {
+      "name": "Echo Barrier",
+      "type": "defense",
+      "power": 50,
+      "description": "A harmonic shield that absorbs and disperses incoming hits."
+    }
   ]
 }
