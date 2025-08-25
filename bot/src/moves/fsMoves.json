@@ -695,6 +695,61 @@
     }
   ],
 
+  "zushi": [
+    {
+      "name": "Gravity Well",
+      "type": "offense",
+      "power": 65,
+      "description": "Create a localized gravity spike that crushes targets."
+    },
+    {
+      "name": "Falling Star",
+      "type": "offense",
+      "power": 110,
+      "recoil": 40,
+      "description": "Summon concentrated gravitational force to slam enemies down."
+    },
+    {
+      "name": "Titan Pull",
+      "type": "offense",
+      "power": 85,
+      "description": "Drag foes toward a single point, leaving them vulnerable."
+    },
+    {
+      "name": "Anchor Weight",
+      "type": "defense",
+      "power": 50,
+      "description": "Increase your effective weight to resist throws and stuns."
+    },
+    {
+      "name": "Grounded Fortitude",
+      "type": "buff",
+      "buffType": "defense",
+      "buffPower": 1.8,
+      "description": "Harden your body by amplifying gravity on yourself."
+    },
+    {
+      "name": "Vertical Shift",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.6,
+      "description": "Manipulate vertical gravity to boost attack impact."
+    },
+    {
+      "name": "Meteor Draw",
+      "type": "offense",
+      "power": 130,
+      "recoil": 55,
+      "description": "Call down multiple heavy impacts that batter an area."
+    },
+    {
+      "name": "Gravity Anchor",
+      "type": "defense",
+      "power": 70,
+      "description": "Plant an invisible gravity anchor that reduces incoming damage."
+    }
+  ],
+
   "thundergod": [
     {
       "name": "Thunder Strike",
@@ -994,6 +1049,29 @@
       "power": 150,
       "recoil": 50,
       "description": "Send a sweeping wave of supreme haki."
+    }
+  ],
+
+  "yoru": [
+    {
+      "name": "Abyssal Edge",
+      "type": "offense",
+      "power": 140,
+      "recoil": 30,
+      "description": "A single, world-shattering slash that cleaves through armor."
+    },
+    {
+      "name": "Nightfall Slash",
+      "type": "offense",
+      "power": 95,
+      "description": "A rapid, precise cut infused with haki to pierce defenses."
+    },
+    {
+      "name": "Void Cleaver",
+      "type": "offense",
+      "power": 180,
+      "recoil": 60,
+      "description": "Unleash the sword's full might in a devastating arc."
     }
   ],
 
