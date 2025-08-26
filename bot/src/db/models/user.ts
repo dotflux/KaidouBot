@@ -51,6 +51,7 @@ const userSchema = new mongoose.Schema({
   maxDef: { type: Number, default: 50 },
   initialDef: { type: Number, default: 0 },
   speed: { type: Number, default: 10 },
+  resistance: { type: Number, default: 0 },
   currentDf: { type: String, default: "" },
   xp: { type: Number, default: 0 },
   nextRankXp: { type: Number, default: 100 },
