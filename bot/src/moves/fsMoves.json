@@ -278,6 +278,119 @@
     }
   ],
 
+  "chop": [
+    {
+      "name": "Chop Gust",
+      "type": "offense",
+      "power": 35,
+      "description": "A cutting strike that emphasizes slicing power."
+    },
+    {
+      "name": "Bark Guard",
+      "type": "defense",
+      "power": 30,
+      "description": "Harden the user's body to reduce incoming damage."
+    },
+    {
+      "name": "Rooted Boost",
+      "type": "buff",
+      "buffType": "defense",
+      "buffPower": 1.5,
+      "description": "Temporary firming of stance to resist hits."
+    },
+    {
+      "name": "Sap Heal",
+      "type": "heal",
+      "power": 25,
+      "description": "Use the fruit's vitality to slowly mend wounds."
+    }
+  ],
+
+  "kilo": [
+    {
+      "name": "Mass Strike",
+      "type": "offense",
+      "power": 45,
+      "description": "Increase weight on impact to smash defenses."
+    },
+    {
+      "name": "Weight Shield",
+      "type": "defense",
+      "power": 40,
+      "description": "Make yourself heavier to reduce damage and knockback."
+    },
+    {
+      "name": "Anchor Boost",
+      "type": "buff",
+      "buffType": "defense",
+      "buffPower": 1.6,
+      "description": "Temporarily massively increase resistance to flinch."
+    },
+    {
+      "name": "Gravity Push",
+      "type": "offense",
+      "power": 30,
+      "description": "Create a heavy shove that unbalances foes."
+    }
+  ],
+
+  "spring": [
+    {
+      "name": "Coil Jab",
+      "type": "offense",
+      "power": 28,
+      "description": "Store spring energy and release in a snapping blow."
+    },
+    {
+      "name": "Bounce Guard",
+      "type": "defense",
+      "power": 18,
+      "description": "Use stored energy to absorb and return part of impact."
+    },
+    {
+      "name": "Catapult Rush",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.8,
+      "description": "Explosive mobility boost for quick repositioning."
+    },
+    {
+      "name": "Rebound Strike",
+      "type": "offense",
+      "power": 50,
+      "recoil": 10,
+      "description": "Release a high-tension strike; moderate recoil on user."
+    }
+  ],
+
+  "falcon": [
+    {
+      "name": "Wing Pierce",
+      "type": "offense",
+      "power": 36,
+      "description": "Aerial-style piercing attacks that strike from above."
+    },
+    {
+      "name": "Aerie Guard",
+      "type": "defense",
+      "power": 22,
+      "description": "Feathered barrier reduces incoming hits briefly."
+    },
+    {
+      "name": "Sky Tempo",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.7,
+      "description": "Boosts movement and attack speed with airborne grace."
+    },
+    {
+      "name": "Talon Drain",
+      "type": "lifesteal",
+      "power": 30,
+      "description": "A swooping strike that steals vitality from the wounded."
+    }
+  ],
+
   "mera": [
     {
       "name": "Fire Fist",
@@ -1079,6 +1192,176 @@
     }
   ],
 
+  "katana": [
+    {
+      "name": "Katana Slash",
+      "type": "offense",
+      "power": 30,
+      "description": "A simple slash with katana."
+    },
+    {
+      "name": "Katana Block",
+      "type": "defense",
+      "power": 20,
+      "description": "A simple fiery of blocks with katana."
+    }
+  ],
+
+  "greataxe": [
+    {
+      "name": "Cleave",
+      "type": "offense",
+      "power": 45,
+      "description": "Heavy overhead swing that chops through guards. (Starter)"
+    },
+    {
+      "name": "Battering Arc",
+      "type": "offense",
+      "power": 75,
+      "recoil": 20,
+      "description": "A slow, wide strike that deals massive damage but hurts the user."
+    },
+    {
+      "name": "Root Stance",
+      "type": "defense",
+      "power": 40,
+      "description": "Plant the axe and brace, reducing incoming damage significantly."
+    }
+  ],
+
+  "hammer": [
+    {
+      "name": "Stud Tap",
+      "type": "offense",
+      "power": 20,
+      "description": "A precise hammer strike. (Starter)"
+    },
+    {
+      "name": "Maul Swing",
+      "type": "offense",
+      "power": 60,
+      "recoil": 12,
+      "description": "A heavy smash that dents defenses at personal cost."
+    },
+    {
+      "name": "Hammer Bulwark",
+      "type": "defense",
+      "power": 35,
+      "description": "Brace the hammer to absorb and deflect incoming blows."
+    }
+  ],
+
+  "greathammer": [
+    {
+      "name": "Groundbreaker",
+      "type": "offense",
+      "power": 80,
+      "recoil": 25,
+      "description": "Slam the ground with tremendous force, leaving user winded."
+    },
+    {
+      "name": "Anvil Guard",
+      "type": "defense",
+      "power": 60,
+      "description": "Hold the hammer low to form a near-impenetrable defense."
+    },
+    {
+      "name": "Iron Echo",
+      "type": "buff",
+      "buffType": "defense",
+      "buffPower": 1.6,
+      "description": "Temporarily harden user's stance and reduce incoming damage."
+    }
+  ],
+
+  "lance": [
+    {
+      "name": "Thrust",
+      "type": "offense",
+      "power": 30,
+      "description": "A fast, piercing stab. (Starter)"
+    },
+    {
+      "name": "Piercing Charge",
+      "type": "offense",
+      "power": 65,
+      "recoil": 10,
+      "description": "A lunging strike that penetrates defenses but leaves balance shaky."
+    },
+    {
+      "name": "Point Guard",
+      "type": "defense",
+      "power": 25,
+      "description": "Use the lance to parry and reduce damage from incoming attacks."
+    }
+  ],
+
+  "raiper": [
+    {
+      "name": "Riposte",
+      "type": "offense",
+      "power": 28,
+      "description": "A precise cut that exploits openings. (Starter)"
+    },
+    {
+      "name": "Flourish",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.5,
+      "description": "Elegant footwork boosts strike speed and evasiveness."
+    },
+    {
+      "name": "Blade Ward",
+      "type": "defense",
+      "power": 20,
+      "description": "Quick parry to blunt incoming damage and counterattack."
+    }
+  ],
+
+  "dagger": [
+    {
+      "name": "Stab",
+      "type": "offense",
+      "power": 15,
+      "description": "A sharp close-range stab. (Starter)"
+    },
+    {
+      "name": "Twin Flick",
+      "type": "offense",
+      "power": 34,
+      "description": "Two quick stabs aimed at weak points."
+    },
+    {
+      "name": "Slip Guard",
+      "type": "defense",
+      "power": 10,
+      "description": "Evade and reduce a small portion of incoming damage."
+    }
+  ],
+
+  "dual_daggers": [
+    {
+      "name": "Shadowstep Blades",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 2.2,
+      "description": "Become unnaturally fast and fluid in melee for a short time."
+    },
+    {
+      "name": "Blood Dances",
+      "type": "lifesteal",
+      "power": 60,
+      "description": "Rapid twin strikes that siphon health back to the user."
+    },
+    {
+      "name": "Rending Torrent",
+      "type": "offense",
+      "power": 120,
+      "recoil": 40,
+      "description": "A furious, high-risk flurry that deals massive damage at cost."
+    }
+  ],
+
   "ace": [
     {
       "name": "Final Resort",
@@ -1286,6 +1569,55 @@
       "type": "defense",
       "power": 50,
       "description": "A harmonic shield that absorbs and disperses incoming hits."
+    }
+  ],
+  "slingshot": [
+    {
+      "name": "Pebble Tap",
+      "type": "offense",
+      "power": 12,
+      "description": "A quick shot with a small stone. (Starter)"
+    },
+    {
+      "name": "Ricochet Shot",
+      "type": "offense",
+      "power": 28,
+      "description": "Stone bounces off surfaces to strike foes unexpectedly."
+    },
+    {
+      "name": "Guard Pebble",
+      "type": "defense",
+      "power": 18,
+      "description": "Fire a spread of pebbles that cushion incoming attacks."
+    },
+    {
+      "name": "Sling Momentum",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.4,
+      "description": "Quickens follow-up shots and movement for a short time."
+    }
+  ],
+
+  "double_flintlock": [
+    {
+      "name": "Twin Snap",
+      "type": "offense",
+      "power": 35,
+      "description": "Fire both barrels in rapid succession. (Starter)"
+    },
+    {
+      "name": "Scatter Volley",
+      "type": "offense",
+      "power": 55,
+      "recoil": 8,
+      "description": "A wide, powerful blast that sacrifices some stability."
+    },
+    {
+      "name": "Lead Shield",
+      "type": "defense",
+      "power": 30,
+      "description": "Create a brief shrapnel barrier that reduces damage."
     }
   ]
 }

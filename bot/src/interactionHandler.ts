@@ -8,6 +8,7 @@ import * as duel from "./commands/duel";
 import * as cheat from "./commands/cheat";
 import * as equip from "./commands/equip";
 import * as inventory from "./commands/inventory";
+import * as chests from "./commands/chests";
 import * as acceptDuelButton from "./logic/duel/buttons/acceptDuelButton";
 import * as rejectDuelButton from "./logic/duel/buttons/rejectDuelButton";
 import * as duelActionSelect from "./logic/duel/dropdowns/duelActionCallback";
@@ -25,6 +26,7 @@ export async function handleInteraction(interaction: Interaction) {
     if (interaction.commandName === "inventory")
       return inventory.execute(interaction);
     if (interaction.commandName === "equip") return equip.execute(interaction);
+    if (interaction.commandName === "chest") return chests.execute(interaction);
   }
   if (interaction.isStringSelectMenu()) {
     if (interaction.customId.startsWith("factionSelect_"))
