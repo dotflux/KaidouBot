@@ -863,6 +863,156 @@
     }
   ],
 
+  "doku": [
+    {
+      "name": "Toxic Spit",
+      "type": "offense",
+      "power": 25,
+      "description": "A quick gout of corrosive venom that coats the target. (Starter)"
+    },
+    {
+      "name": "Corrosive Cloud",
+      "type": "offense",
+      "power": 50,
+      "recoil": 5,
+      "description": "Release a choking cloud of poison that corrodes armor and flesh."
+    },
+    {
+      "name": "Neurotoxin Jab",
+      "type": "offense",
+      "power": 65,
+      "description": "A precise strike that injects a paralytic toxin, slowing opponents."
+    },
+    {
+      "name": "Venomous Shroud",
+      "type": "defense",
+      "power": 35,
+      "description": "Surround yourself in poisonous mist that damages attackers on contact."
+    },
+    {
+      "name": "Paralytic Touch",
+      "type": "offense",
+      "power": 30,
+      "description": "A touch that delivers a fast-acting venom — reduces target speed drastically."
+    },
+    {
+      "name": "Vile Leech",
+      "type": "lifesteal",
+      "power": 35,
+      "description": "Sink toxin-tendrils into the foe to siphon life while poisoning them."
+    },
+    {
+      "name": "Toxin Infusion",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.5,
+      "description": "Coat your strikes in potent venom, increasing damage-over-time on hits."
+    },
+    {
+      "name": "Plague Burst",
+      "type": "offense",
+      "power": 90,
+      "recoil": 20,
+      "description": "A violent eruption of concentrated poison — devastating but strains the user."
+    }
+  ],
+
+  "tori": [
+    {
+      "name": "Blue Wing Strike",
+      "type": "offense",
+      "power": 30,
+      "description": "A graceful wing slash imbued with regenerative blue fire. (Starter)"
+    },
+    {
+      "name": "Healing Flames",
+      "type": "heal",
+      "power": 60,
+      "description": "Wrap in phoenix fire that restores wounds without burning allies."
+    },
+    {
+      "name": "Phoenix Dive",
+      "type": "offense",
+      "power": 70,
+      "description": "A crashing aerial assault that leaves trailing embers that slowly heal the user."
+    },
+    {
+      "name": "Ember Shield",
+      "type": "defense",
+      "power": 40,
+      "description": "Create a ring of regenerative flames that reduces incoming damage and heals slightly."
+    },
+    {
+      "name": "Soaring Grace",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.8,
+      "description": "Lift into the air and move with unmatched agility and reflexes."
+    },
+    {
+      "name": "Aureate Plume",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 1.6,
+      "description": "Channel phoenix vigor into your strikes, increasing their potency."
+    },
+    {
+      "name": "Regenerative Blaze",
+      "type": "heal",
+      "power": 100,
+      "description": "Unleash concentrated phoenix fire that rapidly restores a large portion of HP."
+    },
+    {
+      "name": "Rebirth Form",
+      "type": "transformation",
+      "form": "phoenix",
+      "formBuffType": "defense",
+      "formBuff": 2.0,
+      "description": "Assume true phoenix form — massive regen and greatly increased durability."
+    }
+  ],
+
+  "phoenix": [
+    {
+      "name": "Azure Wing Strike",
+      "type": "offense",
+      "power": 65,
+      "description": "A high-speed aerial slash of blue regenerative flame that strikes while repositioning."
+    },
+    {
+      "name": "Blue Flame Regeneration",
+      "type": "heal",
+      "power": 40,
+      "description": "Surround yourself with phoenix-fire that restores health over a short duration."
+    },
+    {
+      "name": "Sky Emperor Cyclone",
+      "type": "defense",
+      "power": 30,
+      "description": "Flap massive wings to create a vortex that pushes enemies back and reduces incoming damage."
+    },
+    {
+      "name": "Phoenix Burst Dive",
+      "type": "offense",
+      "power": 120,
+      "description": "Soar high then dive with crushing velocity; huge damage on direct hit and a tiny healing shockwave on landing."
+    },
+    {
+      "name": "Rejuvenating Plume",
+      "type": "buff",
+      "buffType": "defense",
+      "buffPower": 1.7,
+      "description": "Envelop yourself in regenerative feathers, greatly improving damage resistance for a short time."
+    },
+    {
+      "name": "Soaring Rush",
+      "type": "buff",
+      "buffType": "speed",
+      "buffPower": 1.8,
+      "description": "Burst into the sky with blistering speed, increasing movement and attack timing."
+    }
+  ],
+
   "thundergod": [
     {
       "name": "Thunder Strike",

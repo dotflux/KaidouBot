@@ -18,6 +18,8 @@ export const DEVIL_FRUITS = new Set([
   "falcon",
   "spring",
   "gura",
+  "doku",
+  "tori",
 ]);
 
 export const SWORDS = new Set([
