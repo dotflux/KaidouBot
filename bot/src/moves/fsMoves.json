@@ -1769,5 +1769,27 @@
       "power": 30,
       "description": "Create a brief shrapnel barrier that reduces damage."
     }
+  ],
+
+  "danda": [
+    {
+      "name": "Pralay Danda Prahar",
+      "type": "offense",
+      "power": 9999,
+      "description": "Swing the holy household danda with divine fury—obliterates the target and their generations’ morale. Ignores all defenses and laughs while doing it."
+    },
+    {
+      "name": "Aakash Ghumao Smack",
+      "type": "defense",
+      "power": 8000,
+      "description": "Spin the danda so fast it creates a vacuum barrier that reflects any attack back to the sender — doubled."
+    },
+    {
+      "name": "Matri Shakti Awakening",
+      "type": "buff",
+      "buffType": "offense",
+      "buffPower": 999,
+      "description": "Channel the spiritual wrath of every Indian mother. Offense stats skyrocket to cosmic levels. Uttering 'Bas bahut hua!' multiplies damage exponentially."
+    }
   ]
 }
